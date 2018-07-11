@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +37,16 @@ public class SpeakerController {
 	@Autowired
 	private PageUtil pageUtil;
 	
+	
+	@RequestMapping("/toSpeakerIndex")
+	public String toSpeakerIndex(ModelMap modelMap) {
+		Subject subject = SecurityUtils.getSubject();
+		Map<String,Object> map=new HashMap<>();
+		map.put("username", (String) subject.getPrincipal());
+		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
+		modelMap.addAttribute("speaker", speakerList.get(0));
+		return "/speaker-list";
+	}
 	/**
 	 * 查询所有演讲者
 	 * @param speaker
@@ -92,5 +105,24 @@ public class SpeakerController {
 		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
 		
 		return JsonUtils.objectToJson(speakerList.get(0));
+	}
+	
+	/**
+	 * 检测输入的旧密码是否和原来匹配
+	 * @param password
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/testOldPwd")
+	public String testOldPwd(String password) {
+		Subject subject = SecurityUtils.getSubject();
+		Map<String,Object> map=new HashMap<>();
+		map.put("username", (String) subject.getPrincipal());
+		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
+		SpeakerExample speaker = speakerList.get(0);
+		if(new Md5Hash(password, speaker.getUsername() ,2).toString().equals(speaker.getPassword())) {
+			return "success";
+		}
+		return "";
 	}
 }

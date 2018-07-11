@@ -210,23 +210,23 @@
 					<div class="form-body">
 						<form data-toggle="validator">
 							<div class="form-group">
-								<input type="text" class="form-control" id="inputName"
+								<input type="text" class="form-control" id="inputName" name="username"
 									placeholder="Username" required>
 							</div>
 							<div class="form-group has-feedback">
-								<input type="email" class="form-control" id="inputEmail"
-									placeholder="Email"
-									data-error="Bruh, that email address is invalid" required>
+								<input type="text" class="form-control" id="inputEmail"
+									placeholder="truename" name="truename"
+									data-error="Bruh, that truename is invalid" required>
 								<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 								<span class="help-block with-errors">Please enter a valid
-									email address</span>
+									truename</span>
 							</div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<input type="password" data-toggle="validator"
 									data-minlength="6" class="form-control" id="inputPassword"
 									placeholder="Password" required> <span
 									class="help-block">Minimum of 6 characters</span>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<input type="password" class="form-control"
 									id="inputPasswordConfirm" data-match="#inputPassword"

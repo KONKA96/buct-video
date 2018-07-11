@@ -1,8 +1,13 @@
 package com.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.model.AuditorExample;
 
 public interface AuditorExampleMapper {
+	List<AuditorExample> auditorLogin(Map<String,Object> map);
+	
     int deleteByPrimaryKey(String id);
 
     int insert(AuditorExample record);

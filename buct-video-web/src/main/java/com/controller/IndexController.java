@@ -67,6 +67,11 @@ public class IndexController {
 		return "";
 	}
 	
+	/**
+	 * 跳转到个人编辑页面
+	 * @param modelMap
+	 * @return
+	 */
 	@RequestMapping("/toSpeakerInfo")
 	public String toSpeakerInfo(ModelMap modelMap) {
 		Subject subject = SecurityUtils.getSubject();
@@ -98,16 +103,6 @@ public class IndexController {
 	@RequestMapping("/toSignUp")
 	public String toSignUp() {
 		return "/signup";
-	}
-	
-	@RequestMapping("/showTables")
-	public String showTables(ModelMap modelMap) {
-		Subject subject = SecurityUtils.getSubject();
-		Map<String,Object> map=new HashMap<>();
-		map.put("username", (String) subject.getPrincipal());
-		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
-		modelMap.addAttribute("speaker", speakerList.get(0));
-		return "/tables";
 	}
 	
 }
