@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.SpeakerExampleMapper" >
+  <resultMap id="BaseResultMap" type="com.model.SpeakerExample" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="snum" property="snum" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="truename" property="truename" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="INTEGER" />
+    <result column="user_num" property="userNum" jdbcType="INTEGER" />
+    <result column="use_duration" property="useDuration" jdbcType="VARCHAR" />
+    <result column="role_power" property="rolePower" jdbcType="INTEGER" />
+    <result column="icon_img" property="iconImg" jdbcType="VARCHAR" />
+    <result column="remake" property="remake" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, snum, username, password, truename, sex, phone, group_id, user_num, use_duration, 
+    role_power, icon_img, remake
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from speaker_example
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from speaker_example
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.model.SpeakerExample" >
+    insert into speaker_example (id, snum, username, 
+      password, truename, sex, 
+      phone, group_id, user_num, 
+      use_duration, role_power, icon_img, 
+      remake)
+    values (#{id,jdbcType=VARCHAR}, #{snum,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, #{userNum,jdbcType=INTEGER}, 
+      #{useDuration,jdbcType=VARCHAR}, #{rolePower,jdbcType=INTEGER}, #{iconImg,jdbcType=VARCHAR}, 
+      #{remake,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.SpeakerExample" >
+    insert into speaker_example
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="snum != null" >
+        snum,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="truename != null" >
+        truename,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="userNum != null" >
+        user_num,
+      </if>
+      <if test="useDuration != null" >
+        use_duration,
+      </if>
+      <if test="rolePower != null" >
+        role_power,
+      </if>
+      <if test="iconImg != null" >
+        icon_img,
+      </if>
+      <if test="remake != null" >
+        remake,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="snum != null" >
+        #{snum,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="truename != null" >
+        #{truename,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="userNum != null" >
+        #{userNum,jdbcType=INTEGER},
+      </if>
+      <if test="useDuration != null" >
+        #{useDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="rolePower != null" >
+        #{rolePower,jdbcType=INTEGER},
+      </if>
+      <if test="iconImg != null" >
+        #{iconImg,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null" >
+        #{remake,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.SpeakerExample" >
+    update speaker_example
+    <set >
+      <if test="snum != null" >
+        snum = #{snum,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="truename != null" >
+        truename = #{truename,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="userNum != null" >
+        user_num = #{userNum,jdbcType=INTEGER},
+      </if>
+      <if test="useDuration != null" >
+        use_duration = #{useDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="rolePower != null" >
+        role_power = #{rolePower,jdbcType=INTEGER},
+      </if>
+      <if test="iconImg != null" >
+        icon_img = #{iconImg,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null" >
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.SpeakerExample" >
+    update speaker_example
+    set snum = #{snum,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      truename = #{truename,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=INTEGER},
+      user_num = #{userNum,jdbcType=INTEGER},
+      use_duration = #{useDuration,jdbcType=VARCHAR},
+      role_power = #{rolePower,jdbcType=INTEGER},
+      icon_img = #{iconImg,jdbcType=VARCHAR},
+      remake = #{remake,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <resultMap type="SpeakerExample" id="speakerMapper" autoMapping="true">
+  	<id column="se_id" property="id"/>
+  	<association property="group" javaType="GroupPojo" autoMapping="true">
+  		<id column="gp_id" property="id"/>
+  	</association>
+  </resultMap>
+  
+  <select id="speakerLogin" parameterType="java.util.Map" resultMap="speakerMapper">
+  	select
+  		se.id se_id, se.snum, se.username, se.password, se.truename, se.sex, se.phone, se.group_id, se.user_num,
+  		se.use_duration, se.role_power, se.icon_img, se.remake,
+    	gp.id gp_id, gp.name, gp.group_desc
+    from speaker_example se
+    left join group_pojo gp on se.group_id=gp.id
+    <where>
+    	<if test="id!=null and id!=''">
+    		and se.id=#{id}
+    	</if>
+    	<if test="username!=null and username!=''">
+    		and se.username=#{username}
+    	</if>
+    	<if test="groupId!=null and groupId!=''">
+    		and se.group_id=#{groupId}
+    	</if>
+    	<if test="rolePower!=null and rolePower!=''">
+    		and se.role_power=#{rolePower}
+    	</if>
+    	<if test="keyword!=null and keyword!=''">
+    		and concat (se.username,se.truename,se.phone,gp.name) like concat ('%',#{keyword},'%')
+    	</if>
+    </where>
+  </select>
+</mapper>
