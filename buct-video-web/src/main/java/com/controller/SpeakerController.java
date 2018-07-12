@@ -125,4 +125,38 @@ public class SpeakerController {
 		}
 		return "";
 	}
+	
+	/**
+	 * 添加、修改演讲者
+	 * @param speaker
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/updateSpeaker")
+	public String updateSpeaker(SpeakerExample speaker) {
+		if(speaker.getId()!=null) {
+			if(speakerExampleService.updateByPrimaryKeySelective(speaker)>0) {
+				return "success";
+			}
+		}else {
+			if(speakerExampleService.insertSelective(speaker)>0) {
+				return "success";
+			}
+		}
+		return "";
+	}
+	
+	/**
+	 * 删除演讲者
+	 * @param speaker
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/deleteSpeaker")
+	public String deleteSpeaker(SpeakerExample speaker) {
+		if(speakerExampleService.deleteByPrimaryKey(speaker)>0) {
+			return "success";
+		}
+		return "";
+	}
 }

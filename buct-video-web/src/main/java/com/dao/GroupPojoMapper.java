@@ -1,8 +1,13 @@
 package com.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.model.GroupPojo;
 
 public interface GroupPojoMapper {
+	List<GroupPojo> selectAllGroup(Map<String,Object> map);
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(GroupPojo record);

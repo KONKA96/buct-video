@@ -68,4 +68,34 @@
       group_desc = #{groupDesc,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <resultMap type="groupPojo" id="groupPojoMapper" autoMapping="true">
+  	<id column="gp_id" property="id"/>
+  	<association property="speaker" javaType="SpeakerExample" autoMapping="true">
+  		<id column="se_id" property="id"/>
+  	</association>
+  	<collection property="auditorList" ofType="AuditorExample" autoMapping="true">
+  		<id column="ae_id" property="id"/>
+  	</collection>
+  </resultMap>
+  <select id="selectAllGroup" resultMap="groupPojoMapper" parameterType="java.util.Map">
+  	select
+  		gp.id gp_id, gp.name, gp.group_desc,
+  		se.id se_id, se.snum, se.username, se.truename, se.sex, se.phone, se.group_id, se.user_num, se.use_duration, 
+    	se.role_power, se.icon_img, se.remake,
+    	ae.id ae_id, ae.snum, ae.username, ae.truename, ae.sex, ae.phone, ae.group_id, ae.use_num, ae.use_duration, 
+    	ae.icon_img, ae.remake
+    from
+    	group_pojo gp
+    left join speaker_example se on gp.id=se.group_id
+    left join auditor_example ae on gp.id=ae.group_id
+    <where>
+    	<if test="id!=null">
+    		and gp.id=#{id}
+    	</if>
+    	<if test="groupName!='' and groupName!=null">
+    		and gp.name=#{groupName}
+    	</if>
+    </where>
+  </select>
 </mapper>

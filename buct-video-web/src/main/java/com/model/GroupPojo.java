@@ -1,13 +1,35 @@
 package com.model;
 
+import java.util.List;
+
 public class GroupPojo {
     private Integer id;
 
     private String name;
 
     private String groupDesc;
+    
+    private SpeakerExample speaker;
+    
+    private List<AuditorExample> auditorList;
 
-    public Integer getId() {
+    public SpeakerExample getSpeaker() {
+		return speaker;
+	}
+
+	public void setSpeaker(SpeakerExample speaker) {
+		this.speaker = speaker;
+	}
+
+	public List<AuditorExample> getAuditorList() {
+		return auditorList;
+	}
+
+	public void setAuditorList(List<AuditorExample> auditorList) {
+		this.auditorList = auditorList;
+	}
+
+	public Integer getId() {
         return id;
     }
 

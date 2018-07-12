@@ -22,8 +22,8 @@ public class testController extends BaseTest{
 	
 	@Test
 	public void testLogin() {
-		String password = "kj966111";
-		String username = "konka2";
+		String password = "123";
+		String username = "wangwu";
 		Map<String,Object> map=new HashMap<>();
 		map.put("username", "konka2");
 		map.put("password", new Md5Hash(password, username ,2).toString());
@@ -45,8 +45,9 @@ public class testController extends BaseTest{
 	 */
 	@Test
 	public void testMD5() {
-		String password = "kj966111";
-		String username = "konka2";
+		String username = "wangwu";
+		String password = "123";
+		
 		String md5 = new Md5Hash(password, username ,2).toString();
 		System.out.println("-----------------"+md5);
 	}

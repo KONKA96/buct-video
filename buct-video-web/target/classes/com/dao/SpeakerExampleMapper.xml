@@ -218,4 +218,8 @@
     	</if>
     </where>
   </select>
+  
+ <select id="selectAllSpeakerId" resultType="java.lang.String">
+ 	select id from speaker_example where role_power=1;
+ </select>
 </mapper>

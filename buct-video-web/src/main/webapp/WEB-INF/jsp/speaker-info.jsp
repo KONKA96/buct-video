@@ -80,16 +80,17 @@
 				<ul class="nav" id="side-menu">
 					<li><a href="/buct-video-web/login/toIndex"><i
 							class="fa fa-home nav_icon"></i>使用数据</a></li>
-					<li><a href="widgets.html"><i
+					<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
 							class="fa fa-th-large nav_icon"></i>用户管理 <span
 							class="nav-badge-btm"></span></a></li>
-					<li><a href="tables.html"><i class="fa fa-table nav_icon"></i>学生管理
-					</a></li>
+					<li><a href="/buct-video-web/auditor/toAuditorIndex"><i
+							class="fa fa-table nav_icon"></i>学生管理 </a></li>
 					<li><a href="#"><i class="fa fa-cogs nav_icon"></i>系统配置 <span
 							class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
-							<li><a href="grids.html">个人信息</a></li>
-							<li><a href="media.html">密码设置</a></li>
+							<li><a href="/buct-video-web/login/toSpeakerInfo">个人信息</a></li>
+							<li><a href="javascript:void(0)"
+								onclick="resetPwd()">密码设置</a></li>
 						</ul> <!-- /nav-second-level --></li>
 				</ul>
 				<div class="clearfix"></div>
@@ -187,8 +188,10 @@
 								</div>
 						</a>
 							<ul class="dropdown-menu drp-mnu">
-								<li><a href="/buct-video-web/login/toSpeakerInfo"><i class="fa fa-user"></i> 个人信息</a></li>
-								<li><a href="#"><i class="fa fa-cog"></i> 密码设置</a></li>
+								<li><a href="/buct-video-web/login/toSpeakerInfo"><i
+										class="fa fa-user"></i> 个人信息</a></li>
+								<li><a href="javascript:void(0)"
+								onclick="resetPwd()"><i class="fa fa-cog"></i> 密码设置</a></li>
 								<li><a href="javascript:void(0)" onclick="userLogout()"><i
 										class="fa fa-sign-out"></i> 退出系统</a></li>
 							</ul></li>
@@ -289,45 +292,6 @@
 			}
 		}
 
-		window.onload = function() {
-			$
-					.ajax({
-						url : "/buct-video-web/speaker/showAllSpeaker",
-						/* data:, */
-						type : "post",
-						success : function(data) {
-							for (var i = 1; i <= data.speakerList.length; i++) {
-								var sex;
-								var group = "";
-								if (data.speakerList[i - 1].sex == 0) {
-									sex = "男";
-								} else {
-									sex = "女";
-								}
-
-								if (data.speakerList[i - 1].group != null) {
-									group = data.speakerList[i - 1].group.name
-								}
-								$("#tbody1")
-										.append(
-												"<tr><th scope='row'>"
-														+ i
-														+ "</th><td>"
-														+ data.speakerList[i - 1].username
-														+ "</td><td>"
-														+ data.speakerList[i - 1].truename
-														+ "</td><td>"
-														+ sex
-														+ "</td><td>"
-														+ data.speakerList[i - 1].phone
-														+ "</td><td>"
-														+ group
-														+ "</td><td><h3><a href='javascript:void(0)'><span class='label label-warning'>编辑</span></a><a href='javascript:void(0)'><span class='label label-danger'>删除</span></a></h3></td></tr>");
-							}
-						}
-					})
-		}
-		
 		function userLogout(){
 			swal({   
 				title: "确认要退出了吗？",
@@ -353,6 +317,87 @@
 						}
 					}
 				})
+			})
+		}
+		
+		var speakerId="${speaker.id}";
+		function resetPwd(){
+			swal({   
+				title: "请输入旧密码",
+				text: "",   
+				type: "input",   
+				showCancelButton: true,   
+				closeOnConfirm: false,   
+				animation: "slide-from-top",   
+				inputPlaceholder: "原密码",
+				confirmButtonText: "确定",
+		        cancelButtonText: "取消",
+			}, function (inputValue){
+				$.ajax({
+					url:"/buct-video-web/speaker/testOldPwd",
+					data:"password="+inputValue,
+					type:"post",
+					//与原密码进行比对
+					success:function(data){
+						//成功匹配，准备输入新密码
+						if(data=='success'){
+							inputNewPwdFirst();
+						}else{
+							//未成功匹配
+							swal("与原密码不匹配!","请重试","error");
+						}
+					}
+				})
+			})
+		}
+		
+		function inputNewPwdFirst(){
+			swal({   
+				title: "请输入新密码",
+				text: "",   
+				type: "input",   
+				showCancelButton: true,   
+				closeOnConfirm: false,   
+				animation: "slide-from-top",   
+				inputPlaceholder: "密码",
+				confirmButtonText: "确定",
+		        cancelButtonText: "取消",
+			}, function (inputValue){
+				inputNewPwdSecond(inputValue);
+			})
+		}
+		
+		function inputNewPwdSecond(pwd){
+			swal({   
+				title: "请再次输入新密码",
+				text: "",   
+				type: "input",   
+				showCancelButton: true,   
+				closeOnConfirm: false,   
+				animation: "slide-from-top",   
+				inputPlaceholder: "密码",
+				confirmButtonText: "确定",
+		        cancelButtonText: "取消",
+			}, function (inputValue){
+				if(pwd!=inputValue){
+					swal("两次输入密码不一致!","操作失败","error");
+				}else{
+					$.ajax({
+						url:"/buct-video-web/speaker/updateSpeaker",
+						data:"id="+speakerId+"&password="+inputValue,
+						type:"post",
+						//与原密码进行比对
+						success:function(data){
+							//成功匹配，准备输入新密码
+							if(data=='success'){
+								swal("添加成功!","","success");
+							}else{
+								//未成功匹配
+								swal("添加失败!","请重试","error");
+							}
+						}
+					})
+				}
 			})
 		}
 	</script>

@@ -6,6 +6,8 @@ import java.util.Map;
 import com.model.SpeakerExample;
 
 public interface SpeakerExampleMapper {
+	List<String> selectAllSpeakerId();
+	
 	List<SpeakerExample> speakerLogin(Map<String,Object> map);
 	
     int deleteByPrimaryKey(String id);
