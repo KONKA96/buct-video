@@ -174,4 +174,34 @@
       remake = #{remake,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <resultMap type="AuditorExample" id="auditorMapper" autoMapping="true">
+  	<id column="ae_id" property="id"/>
+  	<association property="group" javaType="GroupPojo" autoMapping="true">
+  		<id column="gp_id" property="id"/>
+  	</association>
+  </resultMap>
+  
+  <select id="auditorLogin" parameterType="java.util.Map" resultMap="auditorMapper">
+  	select
+  		ae.id ae_id, ae.snum, ae.username, ae.password, ae.truename, ae.sex, ae.phone, ae.group_id, ae.user_num,
+  		ae.use_duration, ae.icon_img, ae.remake,
+    	gp.id gp_id, gp.name, gp.group_desc
+    from auditor_example ae
+    left join group_pojo gp on ae.group_id=gp.id
+    <where>
+    	<if test="id!=null and id!=''">
+    		and ae.id=#{id}
+    	</if>
+    	<if test="username!=null and username!=''">
+    		and ae.username=#{username}
+    	</if>
+    	<if test="groupId!=null and groupId!=''">
+    		and ae.group_id=#{groupId}
+    	</if>
+    	<if test="keyword!=null and keyword!=''">
+    		and concat (ae.username,ae.truename,ae.phone,gp.name) like concat ('%',#{keyword},'%')
+    	</if>
+    </where>
+  </select>
 </mapper>

@@ -80,16 +80,16 @@
 				<ul class="nav" id="side-menu">
 					<li><a href="/buct-video-web/login/toIndex"><i
 							class="fa fa-home nav_icon"></i>使用数据</a></li>
-					<li><a href="widgets.html"><i
+					<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
 							class="fa fa-th-large nav_icon"></i>用户管理 <span
 							class="nav-badge-btm"></span></a></li>
-					<li><a href="tables.html"><i class="fa fa-table nav_icon"></i>学生管理
+					<li><a href="/buct-video-web/auditor/toAuditorIndex"><i class="fa fa-table nav_icon"></i>学生管理
 					</a></li>
 					<li><a href="#"><i class="fa fa-cogs nav_icon"></i>系统配置 <span
 							class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
 							<li><a href="/buct-video-web/login/toSpeakerInfo">个人信息</a></li>
-							<li><a href="media.html">密码设置</a></li>
+							<li><a href="javascript:void(0)" onclick="resetPwd()">密码设置</a></li>
 						</ul> <!-- /nav-second-level --></li>
 				</ul>
 				<div class="clearfix"></div>
@@ -354,6 +354,34 @@
 							swal("退出失败!","请重试","error");
 						}
 					}
+				})
+			})
+		}
+		
+		function resetPwd(){
+			swal({   
+				title: "请输入旧密码",
+				text: "",   
+				type: "input",   
+				showCancelButton: true, 
+				showConfirmButton: true,
+				closeOnConfirm: false,   
+				animation: "slide-from-top",   
+				inputPlaceholder: "密码",
+				confirmButtonText: "确定",
+		        cancelButtonText: "取消",
+			},function(inputValue){
+				$.ajax({
+					url:"/buct-video-web/speaker/testOldPwd",
+					type:"password="+inputValue,
+					success:function(data){
+						if(data=='success'){
+							alert(1);
+						}else{
+							swal("密码不匹配!","请重试","error");
+						}
+					}
+					
 				})
 			})
 		}
