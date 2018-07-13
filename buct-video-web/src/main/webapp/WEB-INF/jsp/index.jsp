@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -11,128 +13,88 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script type="application/x-javascript">
+	
+	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+
+</script>
 <!-- Bootstrap Core CSS -->
-<link href="<%=basePath %>resources/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="<%=basePath%>resources/css/bootstrap.css" rel='stylesheet'
+	type='text/css' />
 <!-- Custom CSS -->
-<link href="<%=basePath %>resources/css/style.css" rel='stylesheet' type='text/css' />
+<link href="<%=basePath%>resources/css/style.css" rel='stylesheet'
+	type='text/css' />
 <!-- font CSS -->
 <!-- font-awesome icons -->
-<link href="<%=basePath %>resources/css/font-awesome.css" rel="stylesheet"> 
+<link href="<%=basePath%>resources/css/font-awesome.css"
+	rel="stylesheet">
 <!-- //font-awesome icons -->
- <!-- js-->
-<script src="<%=basePath %>resources/js/jquery-1.11.1.min.js"></script>
-<script src="<%=basePath %>resources/js/modernizr.custom.js"></script>
+<!-- js-->
+<script src="<%=basePath%>resources/js/jquery-1.11.1.min.js"></script>
+<script src="<%=basePath%>resources/js/modernizr.custom.js"></script>
 <!--webfonts-->
-<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-<!--//webfonts--> 
+<link
+	href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic'
+	rel='stylesheet' type='text/css'>
+<!--//webfonts-->
 <!--animate-->
-<link href="<%=basePath %>resources/css/animate.css" rel="stylesheet" type="text/css" media="all">
-<script src="<%=basePath %>resources/js/wow.min.js"></script>
-	<script>
-		 new WOW().init();
-	</script>
+<link href="<%=basePath%>resources/css/animate.css" rel="stylesheet"
+	type="text/css" media="all">
+<script src="<%=basePath%>resources/js/wow.min.js"></script>
+<script>
+	new WOW().init();
+</script>
 <!--//end-animate-->
 <!-- chart -->
-<script src="<%=basePath %>resources/js/Chart.js"></script>
+<script src="<%=basePath%>resources/js/Chart.js"></script>
 <!-- //chart -->
 <!--Calender-->
-<link rel="stylesheet" href="<%=basePath %>resources/css/clndr.css" type="text/css" />
-<script src="<%=basePath %>resources/js/underscore-min.js" type="text/javascript"></script>
-<script src= "<%=basePath %>resources/js/moment-2.2.1.js" type="text/javascript"></script>
-<script src="<%=basePath %>resources/js/clndr.js" type="text/javascript"></script>
-<script src="<%=basePath %>resources/js/site.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<%=basePath%>resources/css/clndr.css"
+	type="text/css" />
+<script src="<%=basePath%>resources/js/underscore-min.js"
+	type="text/javascript"></script>
+<script src="<%=basePath%>resources/js/moment-2.2.1.js"
+	type="text/javascript"></script>
+<script src="<%=basePath%>resources/js/clndr.js" type="text/javascript"></script>
+<script src="<%=basePath%>resources/js/site.js" type="text/javascript"></script>
 <!--End Calender-->
 <!-- Metis Menu -->
-<script src="<%=basePath %>resources/js/metisMenu.min.js"></script>
-<script src="<%=basePath %>resources/js/custom.js"></script>
-<link href="<%=basePath %>resources/css/custom.css" rel="stylesheet">
+<script src="<%=basePath%>resources/js/metisMenu.min.js"></script>
+<script src="<%=basePath%>resources/js/custom.js"></script>
+<link href="<%=basePath%>resources/css/custom.css" rel="stylesheet">
+
+<script src="<%=basePath%>resources/js/sweetalert.min.js"></script>
+<link href="<%=basePath%>resources/css/sweetalert.css" rel="stylesheet">
+
+<link
+	href="<%=basePath %>resources/css/bootstrap-datetimepicker.min.css"
+	rel="stylesheet">
+<script
+	src="<%=basePath%>resources/js/bootstrap-datetimepicker.js?v=1.0.1"></script>
 </head>
 <body class="cbp-spmenu-push">
 	<div class="main-content">
 		<!--left-fixed -navigation-->
 		<div class=" sidebar" role="navigation">
-            <div class="navbar-collapse">
-				<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-					<ul class="nav" id="side-menu">
-						<li>
-							<a href="index.html" class="active"><i class="fa fa-home nav_icon"></i>Dashboard</a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-cogs nav_icon"></i>Components <span class="nav-badge">12</span> <span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<a href="grids.html">Grid System</a>
-								</li>
-								<li>
-									<a href="media.html">Media Objects</a>
-								</li>
-							</ul>
-							<!-- /nav-second-level -->
-						</li>
-						<li class="">
-							<a href="#"><i class="fa fa-book nav_icon"></i>UI Elements <span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<a href="general.html">General<span class="nav-badge-btm">08</span></a>
-								</li>
-								<li>
-									<a href="typography.html">Typography</a>
-								</li>
-							</ul>
-							<!-- /nav-second-level -->
-						</li>
-						<li>
-							<a href="widgets.html"><i class="fa fa-th-large nav_icon"></i>Widgets <span class="nav-badge-btm">08</span></a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-envelope nav_icon"></i>Mailbox<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<a href="inbox.html">Inbox <span class="nav-badge-btm">05</span></a>
-								</li>
-								<li>
-									<a href="compose.html">Compose email</a>
-								</li>
-							</ul>
-							<!-- //nav-second-level -->
-						</li>
-						<li>
-							<a href="/box-web/login/showTables"><i class="fa fa-table nav_icon"></i>Tables <span class="nav-badge">05</span></a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-check-square-o nav_icon"></i>Forms<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<a href="forms.html">Basic Forms <span class="nav-badge-btm">07</span></a>
-								</li>
-								<li>
-									<a href="validation.html">Validation</a>
-								</li>
-							</ul>
-							<!-- //nav-second-level -->
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-file-text-o nav_icon"></i>Pages<span class="nav-badge-btm">02</span><span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<a href="login.html">Login</a>
-								</li>
-								<li>
-									<a href="signup.html">SignUp</a>
-								</li>
-								<li>
-									<a href="blank-page.html">Blank Page</a>
-								</li>
-							</ul>
-							<!-- //nav-second-level -->
-						</li>
-						<li>
-							<a href="charts.html" class="chart-nav"><i class="fa fa-bar-chart nav_icon"></i>Charts <span class="nav-badge-btm pull-right">new</span></a>
-						</li>
-					</ul>
-					<!-- //sidebar-collapse -->
-				</nav>
+			<div class="navbar-collapse">
+				<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left"
+					id="cbp-spmenu-s1">
+				<ul class="nav" id="side-menu">
+					<li><a href="/buct-video-web/login/toIndex"><i
+							class="fa fa-home nav_icon"></i>使用数据</a></li>
+					<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
+							class="fa fa-th-large nav_icon"></i>用户管理 <span
+							class="nav-badge-btm"></span></a></li>
+					<li><a href="/buct-video-web/auditor/toAuditorIndex"><i
+							class="fa fa-table nav_icon"></i>学生管理 </a></li>
+					<li><a href="#"><i class="fa fa-cogs nav_icon"></i>系统配置 <span
+							class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li><a href="/buct-video-web/login/toSpeakerInfo">个人信息</a></li>
+							<li><a href="javascript:void(0)" onclick="resetPwd()">密码设置</a></li>
+						</ul> <!-- /nav-second-level --></li>
+				</ul>
+				<!-- //sidebar-collapse --> </nav>
 			</div>
 		</div>
 		<!--left-fixed -navigation-->
@@ -140,572 +102,416 @@
 		<div class="sticky-header header-section ">
 			<div class="header-left">
 				<!--toggle button start-->
-				<button id="showLeftPush"><i class="fa fa-bars"></i></button>
+				<button id="showLeftPush">
+					<i class="fa fa-bars"></i>
+				</button>
 				<!--toggle button end-->
 				<!--logo -->
 				<div class="logo">
 					<a href="index.html">
-						<h1>NOVUS</h1>
-						<span>AdminPanel</span>
+						<h1>NOVUS</h1> <span>AdminPanel</span>
 					</a>
 				</div>
 				<!--//logo-->
 				<!--search-box-->
 				<div class="search-box">
-					<form class="input">
+					<!-- <form class="input">
 						<input class="sb-search-input input__field--madoka" placeholder="Search..." type="search" id="input-31" />
 						<label class="input__label" for="input-31">
 							<svg class="graphic" width="100%" height="100%" viewBox="0 0 404 77" preserveAspectRatio="none">
 								<path d="m0,0l404,0l0,77l-404,0l0,-77z"/>
 							</svg>
 						</label>
-					</form>
-				</div><!--//end-search-box-->
-				<div class="clearfix"> </div>
+					</form> -->
+				</div>
+				<!--//end-search-box-->
+				<div class="clearfix"></div>
 			</div>
 			<div class="header-right">
-				<div class="profile_details_left"><!--notifications of menu start -->
+				<div class="profile_details_left">
+					<!--notifications of menu start -->
 					<ul class="nofitications-dropdown">
-						<li class="dropdown head-dpdn">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-envelope"></i><span class="badge">3</span></a>
+						<li class="dropdown head-dpdn"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"
+							aria-expanded="false"><i class="fa fa-bell"></i><span
+								class="badge blue">3</span></a>
 							<ul class="dropdown-menu">
 								<li>
 									<div class="notification_header">
-										<h3>You have 3 new messages</h3>
+										<h3>You have new notification</h3>
 									</div>
 								</li>
 								<li><a href="#">
-								   <div class="user_img"><img src="<%=basePath %>resources/images/1.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet</p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								   <div class="clearfix"></div>	
-								</a></li>
-								<li class="odd"><a href="#">
-									<div class="user_img"><img src="<%=basePath %>resources/images/2.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet </p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								  <div class="clearfix"></div>	
-								</a></li>
-								<li><a href="#">
-								   <div class="user_img"><img src="<%=basePath %>resources/images/3.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet </p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								   <div class="clearfix"></div>	
+										<div class="user_img">
+											<img src="<%=basePath%>resources/images/2.png" alt="">
+										</div>
+										<div class="notification_desc">
+											<p>Lorem ipsum dolor amet</p>
+											<p>
+												<span>1 hour ago</span>
+											</p>
+										</div>
+										<div class="clearfix"></div>
 								</a></li>
 								<li>
-									<div class="notification_bottom">
-										<a href="#">See all messages</a>
-									</div> 
-								</li>
-							</ul>
-						</li>
-						<li class="dropdown head-dpdn">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge blue">3</span></a>
-							<ul class="dropdown-menu">
-								<li>
-									<div class="notification_header">
-										<h3>You have 3 new notification</h3>
-									</div>
-								</li>
-								<li><a href="#">
-									<div class="user_img"><img src="<%=basePath %>resources/images/2.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet</p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								  <div class="clearfix"></div>	
-								 </a></li>
-								 <li class="odd"><a href="#">
-									<div class="user_img"><img src="<%=basePath %>resources/images/1.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet </p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								   <div class="clearfix"></div>	
-								 </a></li>
-								 <li><a href="#">
-									<div class="user_img"><img src="<%=basePath %>resources/images/3.png" alt=""></div>
-								   <div class="notification_desc">
-									<p>Lorem ipsum dolor amet </p>
-									<p><span>1 hour ago</span></p>
-									</div>
-								   <div class="clearfix"></div>	
-								 </a></li>
-								 <li>
 									<div class="notification_bottom">
 										<a href="#">See all notifications</a>
-									</div> 
-								</li>
-							</ul>
-						</li>	
-						<li class="dropdown head-dpdn">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-tasks"></i><span class="badge blue1">15</span></a>
-							<ul class="dropdown-menu">
-								<li>
-									<div class="notification_header">
-										<h3>You have 8 pending task</h3>
 									</div>
 								</li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Database update</span><span class="percentage">40%</span>
-										<div class="clearfix"></div>	
-									</div>
-									<div class="progress progress-striped active">
-										<div class="bar yellow" style="width:40%;"></div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Dashboard done</span><span class="percentage">90%</span>
-									   <div class="clearfix"></div>	
-									</div>
-									<div class="progress progress-striped active">
-										 <div class="bar green" style="width:90%;"></div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Mobile App</span><span class="percentage">33%</span>
-										<div class="clearfix"></div>	
-									</div>
-								   <div class="progress progress-striped active">
-										 <div class="bar red" style="width: 33%;"></div>
-									</div>
-								</a></li>
-								<li><a href="#">
-									<div class="task-info">
-										<span class="task-desc">Issues fixed</span><span class="percentage">80%</span>
-									   <div class="clearfix"></div>	
-									</div>
-									<div class="progress progress-striped active">
-										 <div class="bar  blue" style="width: 80%;"></div>
-									</div>
-								</a></li>
-								<li>
-									<div class="notification_bottom">
-										<a href="#">See all pending tasks</a>
-									</div> 
-								</li>
-							</ul>
-						</li>	
+							</ul></li>
 					</ul>
-					<div class="clearfix"> </div>
+					<div class="clearfix"></div>
 				</div>
 				<!--notification menu end -->
-				<div class="profile_details">		
+				<div class="profile_details">
 					<ul>
-						<li class="dropdown profile_details_drop">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<div class="profile_img">	
-									<span class="prfil-img"><img src="<%=basePath %>resources/images/a.png" alt=""> </span> 
+						<li class="dropdown profile_details_drop"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"
+							aria-expanded="false">
+								<div class="profile_img">
+									<span class="prfil-img"><img
+										src="<%=basePath%>upload/${speaker.iconImg }" alt=""> </span>
 									<div class="user-name">
-										<p>Wikolia</p>
-										<span>Administrator</span>
+										<shiro:user>
+											<p>
+												<shiro:principal />
+											</p>
+										</shiro:user>
+										<span> <c:if test="${speaker.rolePower==0 }">管理员</c:if>
+											<c:if test="${speaker.rolePower==1 }">演讲者</c:if>
+										</span>
 									</div>
-									<i class="fa fa-angle-down lnr"></i>
-									<i class="fa fa-angle-up lnr"></i>
-									<div class="clearfix"></div>	
-								</div>	
-							</a>
+									<i class="fa fa-angle-down lnr"></i> <i
+										class="fa fa-angle-up lnr"></i>
+									<div class="clearfix"></div>
+								</div>
+						</a>
 							<ul class="dropdown-menu drp-mnu">
-								<li> <a href="#"><i class="fa fa-cog"></i> Settings</a> </li> 
-								<li> <a href="#"><i class="fa fa-user"></i> Profile</a> </li> 
-								<li> <a href="#"><i class="fa fa-sign-out"></i> Logout</a> </li>
-							</ul>
-						</li>
+								<li><a href="/buct-video-web/login/toSpeakerInfo"><i
+										class="fa fa-user"></i> 个人信息</a></li>
+								<li><a href="javascript:void(0)" onclick="resetPwd()"><i
+										class="fa fa-cog"></i> 密码设置</a></li>
+								<li><a href="javascript:void(0)" onclick="userLogout()"><i
+										class="fa fa-sign-out"></i> 退出系统</a></li>
+							</ul></li>
 					</ul>
 				</div>
-				<div class="clearfix"> </div>				
+				<div class="clearfix"></div>
 			</div>
-			<div class="clearfix"> </div>	
+			<div class="clearfix"></div>
 		</div>
-		<!-- //header-ends -->
-        <div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >手机网站模板</a></div>
 		<!-- main content start-->
 		<div id="page-wrapper">
 			<div class="main-page">
 				<div class="row-one">
 					<div class="col-md-4 widget">
 						<div class="stats-left ">
-							<h5>Today</h5>
-							<h4>Sales</h4>
+							<h5>用户使用</h5>
+							<h4>时长：</h4>
+							<!-- <h5 style="float:right;">较前日：</h5> -->
 						</div>
 						<div class="stats-right">
-							<label> 45</label>
+							<label id="speakerTime"></label>
 						</div>
-						<div class="clearfix"> </div>	
+						<div class="clearfix"></div>
 					</div>
 					<div class="col-md-4 widget states-mdl">
 						<div class="stats-left">
-							<h5>Today</h5>
-							<h4>Visitors</h4>
+							<h5>学生使用</h5>
+							<h4>时长：</h4>
 						</div>
 						<div class="stats-right">
-							<label> 80</label>
+							<label id="auditorTime"></label>
 						</div>
-						<div class="clearfix"> </div>	
+						<div class="clearfix"></div>
 					</div>
 					<div class="col-md-4 widget states-last">
 						<div class="stats-left">
-							<h5>Today</h5>
-							<h4>Orders</h4>
+							<h5>总共使用</h5>
+							<h4>时长：</h4>
 						</div>
 						<div class="stats-right">
-							<label>51</label>
+							<label id="allTime">30</label>
 						</div>
-						<div class="clearfix"> </div>	
+						<div class="clearfix"></div>
 					</div>
-					<div class="clearfix"> </div>	
+					<div class="clearfix"></div>
 				</div>
-				<div class="charts">
-					<div class="col-md-4 charts-grids widget">
-						<h4 class="title">Bar Chart Example</h4>
-						<canvas id="bar" height="300" width="400"> </canvas>
+			</div>
+			<div class="charts">
+				<div class="col-md-12 chrt-page-grids">
+					<h4 class="title"></h4>
+					<div class="form-group">
+						<div class="input-group date form_datetime col-md-5"
+							data-date="2018-08-08T05:25:07Z"
+							data-date-format="yyyy-mm-dd hh:ii:ss"
+							data-link-field="dtp_input1">
+							<input class="form-control" name="startTime" size="16"
+								type="text" value="" readonly> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-remove"></span></span> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-th"></span></span>
+						</div>
+						<input type="hidden" id="dtp_input1" value="" /><br />
 					</div>
-					<div class="col-md-4 charts-grids widget states-mdl">
-						<h4 class="title">Line Chart Example</h4>
-						<canvas id="line" height="300" width="400"> </canvas>
+					<div class="inbox-page"> 
+						用户:<input type="checkbox" class="checkbox"> 
+						学生:<input type="checkbox" class="checkbox"> 
 					</div>
-					<div class="col-md-4 charts-grids widget">
-						<h4 class="title">Pie Chart Example</h4>
-						<canvas id="pie" height="300" width="400"> </canvas>
-					</div>
-					<div class="clearfix"> </div>
-							 <script>
-								var barChartData = {
-									labels : ["Jan","Feb","March","April","May","June","July"],
-									datasets : [
-										{
-											fillColor : "rgba(233, 78, 2, 0.9)",
-											strokeColor : "rgba(233, 78, 2, 0.9)",
-											highlightFill: "#e94e02",
-											highlightStroke: "#e94e02",
-											data : [65,59,90,81,56,55,40]
-										},
-										{
-											fillColor : "rgba(79, 82, 186, 0.9)",
-											strokeColor : "rgba(79, 82, 186, 0.9)",
-											highlightFill: "#4F52BA",
-											highlightStroke: "#4F52BA",
-											data : [40,70,55,20,45,70,60]
-										}
-									]
-									
-								};
-								var lineChartData = {
-									labels : ["Jan","Feb","March","April","May","June","July"],
-									datasets : [
-										{
-											fillColor : "rgba(242, 179, 63, 1)",
-											strokeColor : "#F2B33F",
-											pointColor : "rgba(242, 179, 63, 1)",
-											pointStrokeColor : "#fff",
-											data : [70,60,72,61,75,59,80]
-
-										},
-										{
-											fillColor : "rgba(97, 100, 193, 1)",
-											strokeColor : "#6164C1",
-											pointColor : "rgba(97, 100, 193,1)",
-											pointStrokeColor : "#9358ac",
-											data : [50,65,51,67,52,64,50]
-
-										}
-									]
-									
-								};
-								var pieData = [
-										{
-											value: 90,
-											color:"rgba(233, 78, 2, 1)",
-											label: "Product 1"
-										},
-										{
-											value : 50,
-											color : "rgba(242, 179, 63, 1)",
-											label: "Product 2"
-										},
-										{
-											value : 60,
-											color : "rgba(88, 88, 88,1)",
-											label: "Product 3"
-										},
-										{
-											value : 40,
-											color : "rgba(79, 82, 186, 1)",
-											label: "Product 4"
-										}
-										
-									];
-								
-							new Chart(document.getElementById("line").getContext("2d")).Line(lineChartData);
-							new Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);
-							new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
-							
-							</script>
-							
+					<canvas id="line" height="400" width="600"
+						style="width: 1000px; height: 500px;"></canvas>
 				</div>
-				<div class="row">
-					<div class="col-md-4 stats-info widget">
-						<div class="stats-title">
-							<h4 class="title">Browser Stats</h4>
-						</div>
-						<div class="stats-body">
-							<ul class="list-unstyled">
-								<li>GoogleChrome <span class="pull-right">85%</span>  
-									<div class="progress progress-striped active progress-right">
-										<div class="bar green" style="width:85%;"></div> 
-									</div>
-								</li>
-								<li>Firefox <span class="pull-right">35%</span>  
-									<div class="progress progress-striped active progress-right">
-										<div class="bar yellow" style="width:35%;"></div>
-									</div>
-								</li>
-								<li>Internet Explorer <span class="pull-right">78%</span>  
-									<div class="progress progress-striped active progress-right">
-										<div class="bar red" style="width:78%;"></div>
-									</div>
-								</li>
-								<li>Safari <span class="pull-right">50%</span>  
-									<div class="progress progress-striped active progress-right">
-										<div class="bar blue" style="width:50%;"></div>
-									</div>
-								</li>
-								<li>Opera <span class="pull-right">80%</span>  
-									<div class="progress progress-striped active progress-right">
-										<div class="bar light-blue" style="width:80%;"></div>
-									</div>
-								</li>
-								<li class="last">Others <span class="pull-right">60%</span>  
-									<div class="progress progress-striped active progress-right">
-										<div class="bar orange" style="width:60%;"></div>
-									</div>
-								</li> 
-							</ul>
-						</div>
-					</div>
-					<div class="col-md-8 stats-info stats-last widget-shadow">
-						<table class="table stats-table ">
-							<thead>
-								<tr>
-									<th>S.NO</th>
-									<th>PRODUCT</th>
-									<th>STATUS</th>
-									<th>PROGRESS</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>Lorem ipsum</td>
-									<td><span class="label label-success">In progress</span></td>
-									<td><h5>85% <i class="fa fa-level-up"></i></h5></td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Aliquam</td>
-									<td><span class="label label-warning">New</span></td>
-									<td><h5>35% <i class="fa fa-level-up"></i></h5></td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Lorem ipsum</td>
-									<td><span class="label label-danger">Overdue</span></td>
-									<td><h5  class="down">40% <i class="fa fa-level-down"></i></h5></td>
-								</tr>
-								<tr>
-									<th scope="row">4</th>
-									<td>Aliquam</td>
-									<td><span class="label label-info">Out of stock</span></td>
-									<td><h5>100% <i class="fa fa-level-up"></i></h5></td>
-								</tr>
-								<tr>
-									<th scope="row">5</th>
-									<td>Lorem ipsum</td>
-									<td><span class="label label-success">In progress</span></td>
-									<td><h5 class="down">10% <i class="fa fa-level-down"></i></h5></td>
-								</tr>
-								<tr>
-									<th scope="row">6</th>
-									<td>Aliquam</td>
-									<td><span class="label label-warning">New</span></td>
-									<td><h5>38% <i class="fa fa-level-up"></i></h5></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="row">
-					<div class="col-md-8 map widget-shadow">
-						<h4 class="title">Visitors Map </h4>
-						<div class="map_container"><div id="vmap" style="width: 100%; height: 354px;"></div></div>
-						<!--map js-->
-						<link href="<%=basePath %>resources/css/jqvmap.css" rel='stylesheet' type='text/css' />
-						<script src="<%=basePath %>resources/js/jquery.vmap.js"></script>
-						<script src="<%=basePath %>resources/js/jquery.vmap.sampledata.js" type="text/javascript"></script>
-						<script src="<%=basePath %>resources/js/jquery.vmap.world.js" type="text/javascript"></script>
-						<script type="text/javascript">
-							jQuery(document).ready(function() {
-								jQuery('#vmap').vectorMap({
-									map: 'world_en',
-									backgroundColor: '#fff',
-									color: '#696565',
-									hoverOpacity: 0.8,
-									selectedColor: '#696565',
-									enableZoom: true,
-									showTooltip: true,
-									values: sample_data,
-									scaleColors: ['#585858', '#696565'],
-									normalizeFunction: 'polynomial'
-								});
-							});
-						</script>
-						<!-- //map js -->
-					</div>
-					<div class="col-md-4 social-media widget-shadow">
-						<div class="wid-social twitter">
-							<div class="social-icon">
-								<i class="fa fa-twitter text-light icon-xlg "></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">3.1 K</h3>
-								<h4 class="counttype text-light">Tweets</h4>
-							</div>
-						</div>
-						<div class="wid-social google-plus">
-							<div class="social-icon">
-								<i class="fa fa-google-plus text-light icon-xlg "></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">523</h3>
-								<h4 class="counttype text-light">Circles</h4>
-							</div>
-						</div>
-						<div class="wid-social facebook">
-							<div class="social-icon">
-								<i class="fa fa-facebook text-light icon-xlg "></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">1.06K</h3>
-								<h4 class="counttype text-light">Likes</h4>
-							</div>
-						</div>
-						<div class="wid-social dribbble">
-							<div class="social-icon">
-								<i class="fa fa-dribbble text-light icon-xlg "></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">1.6 K</h3>
-								<h4 class="counttype text-light">Subscribers</h4>
-							</div>
-						</div>
-						<div class="wid-social vimeo">
-							<div class="social-icon">
-								<i class="fa fa-vimeo-square text-light icon-xlg"> </i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">2.1 m</h3>
-								<h4 class="counttype text-light">Contacts</h4>
-							</div>
-						</div>
-						<div class="wid-social xing">
-							<div class="social-icon">
-								<i class="fa fa-xing text-light icon-xlg "></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">2525</h3>
-								<h4 class="counttype text-light">Connections</h4>
-							</div>
-						</div>
-						<div class="wid-social flickr">
-							<div class="social-icon">
-								<i class="fa fa-android text-light icon-xlg"></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">1221</h3>
-								<h4 class="counttype text-light">Media</h4>
-							</div>
-						</div>
-						<div class="wid-social yahoo">
-							<div class="social-icon">
-								<i class="fa fa-yahoo text-light icon-xlg"> Y!</i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">2525</h3>
-								<h4 class="counttype text-light">Connections</h4>
-							</div>
-						</div>
-						<div class="wid-social rss">
-							<div class="social-icon">
-								<i class="fa fa-rss text-light icon-xlg"></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">1523</h3>
-								<h4 class="counttype text-light">Subscribers</h4>
-							</div>
-						</div>
-						<div class="wid-social youtube">
-							<div class="social-icon">
-								<i class="fa fa-youtube text-light icon-xlg"></i>
-							</div>
-							<div class="social-info">
-								<h3 class="number_counter bold count text-light start_timer counted">1523</h3>
-								<h4 class="counttype text-light">Subscribers</h4>
-							</div>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="row calender widget-shadow">
-					<h4 class="title">Calender</h4>
-					<div class="cal1">
-						
-					</div>
-				</div>
-				<div class="clearfix"> </div>
 			</div>
 		</div>
-		<!--footer-->
-		<div class="footer">
-		   <p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
-		</div>
-        <!--//footer-->
 	</div>
-	<script src="<%=basePath %>resources/js/classie.js"></script>
-		<script>
-			var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
-				showLeftPush = document.getElementById( 'showLeftPush' ),
-				body = document.body;
-				
-			showLeftPush.onclick = function() {
-				classie.toggle( this, 'active' );
-				classie.toggle( body, 'cbp-spmenu-push-toright' );
-				classie.toggle( menuLeft, 'cbp-spmenu-open' );
-				disableOther( 'showLeftPush' );
-			};
-			
+	<!--footer-->
+	<div class="footer">
+		<p>Copyright &copy;</p>
+	</div>
+	<!--//footer-->
+	<script src="<%=basePath%>resources/js/classie.js"></script>
+	<script>
+		var menuLeft = document.getElementById('cbp-spmenu-s1'), showLeftPush = document
+				.getElementById('showLeftPush'), body = document.body;
 
-			function disableOther( button ) {
-				if( button !== 'showLeftPush' ) {
-					classie.toggle( showLeftPush, 'disabled' );
-				}
+		showLeftPush.onclick = function() {
+			classie.toggle(this, 'active');
+			classie.toggle(body, 'cbp-spmenu-push-toright');
+			classie.toggle(menuLeft, 'cbp-spmenu-open');
+			disableOther('showLeftPush');
+		};
+
+		function disableOther(button) {
+			if (button !== 'showLeftPush') {
+				classie.toggle(showLeftPush, 'disabled');
 			}
-		</script>
+		}
+
+		window.onload = function() {
+			loadSpeakerTime();
+			loadAuditorTime();
+			loadAllTime();
+
+			loadEchartsData();
+		}
+
+
+		function loadSpeakerTime() {
+			$.ajax({
+				url : "/buct-video-web/echarts/getSpeakerTime",
+				data : "rolePower=1",
+				type : "post",
+				success : function(data) {
+					$("#speakerTime").html(data + "/h");
+				}
+			})
+		}
+
+		function loadAuditorTime() {
+			$.ajax({
+				url : "/buct-video-web/echarts/getSpeakerTime",
+				data : "rolePower=2",
+				type : "post",
+				success : function(data) {
+					$("#auditorTime").html(data + "/h");
+				}
+			})
+		}
+
+		function loadAllTime() {
+			$.ajax({
+				url : "/buct-video-web/echarts/getSpeakerTime",
+				type : "post",
+				success : function(data) {
+					$("#allTime").html(data + "/h");
+				}
+			})
+		}
+
+		function userLogout() {
+			swal({
+				title : "确认要退出了吗？",
+				text : "",
+				type : "warning",
+				showCancelButton : true,
+				showConfirmButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function() {
+				$.ajax({
+					url : "/buct-video-web/login/userLogout",
+					type : "post",
+					success : function(data) {
+						if (data == 'success') {
+							swal("退出成功!", "", "success");
+							window.href = "/buct-video-web/login/toLogin";
+						} else {
+							swal("退出失败!", "请重试", "error");
+						}
+					}
+				})
+			})
+		}
+
+		var speakerId = "${speaker.id}";
+		function resetPwd() {
+			swal({
+				title : "请输入旧密码",
+				text : "",
+				type : "input",
+				showCancelButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "原密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function(inputValue) {
+				$.ajax({
+					url : "/buct-video-web/speaker/testOldPwd",
+					data : "password=" + inputValue,
+					type : "post",
+					//与原密码进行比对
+					success : function(data) {
+						//成功匹配，准备输入新密码
+						if (data == 'success') {
+							inputNewPwdFirst();
+						} else {
+							//未成功匹配
+							swal("与原密码不匹配!", "请重试", "error");
+						}
+					}
+				})
+			})
+		}
+
+		function inputNewPwdFirst() {
+			swal({
+				title : "请输入新密码",
+				text : "",
+				type : "input",
+				showCancelButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function(inputValue) {
+				inputNewPwdSecond(inputValue);
+			})
+		}
+
+		function inputNewPwdSecond(pwd) {
+			swal({
+				title : "请再次输入新密码",
+				text : "",
+				type : "input",
+				showCancelButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function(inputValue) {
+				if (pwd != inputValue) {
+					swal("两次输入密码不一致!", "操作失败", "error");
+				} else {
+					$.ajax({
+						url : "/buct-video-web/speaker/updateSpeaker",
+						data : "id=" + speakerId + "&password=" + inputValue,
+						type : "post",
+						//与原密码进行比对
+						success : function(data) {
+							//成功匹配，准备输入新密码
+							if (data == 'success') {
+								swal("添加成功!", "", "success");
+							} else {
+								//未成功匹配
+								swal("添加失败!", "请重试", "error");
+							}
+						}
+					})
+				}
+			})
+		}
+		
+		var lineChartData;
+		var names = [];
+		var speakerNums = [];
+		var auditorNums = [];
+		var allUserNums = [];
+		function loadEchartsData() {
+
+			$.ajax({
+				url : "/buct-video-web/echarts/getEchartsData",
+				/* data:"rolePower=1", */
+				type : "post",
+				success : function(data) {
+					for (var i = 0; i < data.xAxisData.length; i++) {
+						names.push(data.xAxisData[i]); //挨个取出类别并填入类别数组
+					}
+					for (var i = 0; i < data.SpeakerList.length; i++) {
+						speakerNums.push(data.SpeakerList[i]); //挨个取出时间并填入数组
+					}
+					for (var i = 0; i < data.AuditorList.length; i++) {
+						auditorNums.push(data.AuditorList[i]); 
+					}
+					for (var i = 0; i < data.AllUserList.length; i++) {
+						allUserNums.push(data.AllUserList[i]); 
+					}
+					
+					var areaChartCanvas = document.getElementById("line").getContext("2d");
+	                var areaChart = new Chart(areaChartCanvas);
+	                
+	                areaChart.Line({
+	                	labels : names,
+	        			datasets : [ {
+	        				fillColor : "rgba(51, 51, 51, 0)",
+	        				strokeColor : "#5153BD",
+	        				pointColor : "#5153BD",
+	        				pointStrokeColor : "#fff",
+	        				data : speakerNums
+	        			}, {
+	        				fillColor : "rgba(51, 51, 51, 0)",
+	        				strokeColor : "#585858",
+	        				pointColor : "#585858",
+	        				pointStrokeColor : "#fff",
+	        				data : auditorNums
+	        			}, {
+	        				fillColor : "rgba(51, 51, 51, 0)",
+	        				strokeColor : "#E04C00",
+	        				pointColor : "#E04C00",
+	        				pointStrokeColor : "#fff",
+	        				data : allUserNums
+	        			} ]
+	                	
+	                })
+				}
+			})
+		}
+		
+		//日历插件
+		$('.form_datetime').datetimepicker({
+	        weekStart: 0, //一周从哪一天开始
+	        todayBtn:  1, //
+	        autoclose: 1,
+	        todayHighlight: 1,
+	        startView: 0,
+	        forceParse: 0,
+	        showMeridian: 1
+	    });
+
+	</script>
 	<!--scrolling js-->
-	<script src="<%=basePath %>resources/js/jquery.nicescroll.js"></script>
-	<script src="<%=basePath %>resources/js/scripts.js"></script>
+	<script src="<%=basePath%>resources/js/jquery.nicescroll.js"></script>
+	<script src="<%=basePath%>resources/js/scripts.js"></script>
 	<!--//scrolling js-->
 	<!-- Bootstrap Core JavaScript -->
-   <script src="<%=basePath %>resources/js/bootstrap.js"> </script>
+	<script src="<%=basePath%>resources/js/bootstrap.js">
+		
+	</script>
 </body>
 </html>

@@ -90,4 +90,21 @@
       role_power = #{rolePower,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectEchartsData" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select
+  		sum(timediff(end_time,start_time)) as sumTime
+  	from record_pojo
+  	<where>
+  		<if test="rolePower!=null">
+  			and role_power=#{rolePower}
+  		</if>
+  		<if test="startTime!=null">
+  			and start_time &lt;= #{startTime}
+  		</if>
+  		<if test="endTime!=null">
+  			and end_time &gt;= #{endTime}
+  		</if>
+  	</where>
+  </select>
 </mapper>
