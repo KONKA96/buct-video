@@ -75,6 +75,8 @@
 
 <script src="<%=basePath%>resources/js/sweetalert.min.js"></script>
 <link href="<%=basePath%>resources/css/sweetalert.css" rel="stylesheet">
+
+<script src="<%=basePath%>resources/js/jquery-form.js"></script>
 </head>
 <body class="cbp-spmenu-push">
 	<div class="main-content">
@@ -215,13 +217,17 @@
 				<div class="main-page">
 					<div class="form-two widget-shadow">
 						<div class="form-body" data-example-id="simple-form-inline">
-							<form class="form-inline">
+							<form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
 								<button type="button" class="btn btn-primary btn-lg"
 									data-toggle="modal" data-target="#exampleModal"
 									>新增用户</button>
-
-								<button type="button" class="btn btn-primary btn-lg"
-									data-toggle="modal" data-target="#" >批量导入</button>
+								<div class="compose-right" style="float:left;">
+								<div class="btn btn-default btn-file">
+									<i class="fa fa-paperclip"></i> 选择文件
+									<input type="file" name="file" id="upfile">
+								</div>
+								</div>
+								<button type="button" class="btn btn-primary btn-lg" onclick="importExcel()">批量导入</button>
 									
 								<button type="button" class="btn btn-success" onclick="addGroup()">Add New Group</button>
 
@@ -284,6 +290,59 @@
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Close</button>
 									<button type="button" class="btn btn-primary" onclick="addSpeaker()">Send
+										message</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<!-- 隐藏弹框 编辑用户 -->
+					<div class="modal fade" id="exampleModal2" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="exampleModalLabel">Edit Speaker</h4>
+								</div>
+								<div class="modal-body">
+									<form id="editSpeakerForm">
+										<input type="hidden" name="id" class="form-control" id="hiddenIdInput">
+										
+										<div class="form-group">
+											<label for="recipient-name" class="control-label">Username:</label>
+											<input type="text" name="username" class="form-control" id="usernameInput">
+										</div>
+										<!-- <div class="form-group">
+											<label for="message-text" class="control-label">Password:</label>
+											<input type="password" name="password" class="form-control" id="passwordInput">
+										</div> -->
+										<div class="form-group">
+											<label for="message-text" class="control-label">Truename:</label>
+											<input type="text" name="truename" class="form-control" id="truenameInput">
+										</div>
+										
+										<div class="form-group">
+											<label for="message-text" class="control-label">Sex:</label>
+											<select class="form-control m-b" name="sex" id="sexSelect">
+		                                    		
+		                                    </select>
+										</div>
+										<div class="form-group">
+											<label for="message-text" class="control-label">Group:</label>
+											<select class="form-control m-b" name="groupId" id="groupSelected1">
+		                                    </select>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary" onclick="editSpeaker()">Send
 										message</button>
 								</div>
 							</div>
@@ -401,7 +460,7 @@
 												+ data.speakerList[i - 1].phone
 												+ "</td><td>"
 												+ group
-												+ "</td><td><h3><a href='javascript:void(0)'><span class='label label-warning'>编辑</span></a><a href='javascript:void(0)' onclick='deleteSpeaker(\""+data.speakerList[i - 1].id+"\")'><span class='label label-danger'>删除</span></a></h3></td></tr>");
+												+ "</td><td><h3><a href='javascript:void(0)' onclick='toEditSpeaker(\""+data.speakerList[i - 1].id+"\")' data-toggle='modal' data-target='#exampleModal2'><span class='label label-warning'>编辑</span></a><a href='javascript:void(0)' onclick='deleteSpeaker(\""+data.speakerList[i - 1].id+"\")'><span class='label label-danger'>删除</span></a></h3></td></tr>");
 					}
 					
 					/* 加载分页按钮 */
@@ -432,6 +491,53 @@
 			})
 		}
 		
+		
+		function toEditSpeaker(id) {
+			var groupId;
+			$.ajax({
+				url : "/buct-video-web/speaker/showSpeakerInfo",
+				data : "id=" + id,
+				type : "post",
+				success : function(data) {
+					$("#hiddenIdInput").val(data.id);
+					$("#usernameInput").val(data.username);
+					$("#truenameInput").val(data.truename);
+
+					$("#sexSelect").empty();
+					if (data.sex == 0) {
+						$("#sexSelect").append(
+								"<option value='0' selected>男</option>");
+						$("#sexSelect").append("<option value='1'>女</option>");
+					} else {
+						$("#sexSelect").append("<option value='0'>男</option>");
+						$("#sexSelect").append(
+								"<option value='1' selected>女</option>");
+					}
+
+					groupId = data.groupId;
+				}
+			})
+
+			$.ajax({
+				url : "/buct-video-web/group/showAllGroup",
+				type : "post",
+				success : function(data) {
+					$("#groupSelected1").empty();
+					for (var i = 0; i < data.length; i++) {
+						if (data[i].id == groupId) {
+							$("#groupSelected1").append(
+									"<option value='"+data[i].id+"' selected>"
+											+ data[i].name + "</option>");
+						} else {
+							$("#groupSelected1").append(
+									"<option value='"+data[i].id+"'>"
+											+ data[i].name + "</option>");
+						}
+					}
+				}
+			})
+		}
+
 		function userLogout() {
 			swal({
 				title : "确认要退出了吗？",
@@ -539,8 +645,8 @@
 				}
 			})
 		}
-		
-		function addGroup(){
+
+		function addGroup() {
 			swal({
 				title : "请输入新组名",
 				text : "",
@@ -554,34 +660,36 @@
 			}, function(inputValue) {
 				$.ajax({
 					url : "/buct-video-web/group/updateGroup",
-					data : "name="+inputValue,
+					data : "name=" + inputValue,
 					type : "post",
 					success : function(data) {
 						if (data == 'success') {
 							swal("添加成功!", "", "success");
-						} else if (data == 'exist'){
+						} else if (data == 'exist') {
 							swal("添加失败!", "该组别已经存在", "error");
-						}else {
+						} else {
 							swal("添加失败!", "请重试", "error");
 						}
 					}
 				})
 			})
 		}
-		
-		function loadGroup(){
+
+		function loadGroup() {
 			$.ajax({
 				url : "/buct-video-web/group/showAllGroup",
 				type : "post",
 				success : function(data) {
 					for (var i = 0; i < data.length; i++) {
-						$("#groupSelected").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+						$("#groupSelected").append(
+								"<option value='"+data[i].id+"'>"
+										+ data[i].name + "</option>");
 					}
 				}
 			})
 		}
-		
-		function addSpeaker(){
+
+		function addSpeaker() {
 			$.ajax({
 				url : "/buct-video-web/speaker/updateSpeaker",
 				data : $("#addSpeakerForm").serialize(),
@@ -589,22 +697,45 @@
 				success : function(data) {
 					if (data == 'success') {
 						swal({
-							title : "删除成功!", 
-							text : "", 
+							title : "添加成功!",
+							text : "",
 							type : "success"
-							},function(){
-								window.location.reload();
-							});
-					} else if (data == 'exist'){
+						}, function() {
+							window.location.reload();
+						});
+					} else if (data == 'exist') {
 						swal("添加失败!", "该用户已经存在", "error");
-					}else {
+					} else {
 						swal("添加失败!", "请重试", "error");
 					}
 				}
 			})
 		}
 		
-		function deleteSpeaker(id){
+		function editSpeaker() {
+			$.ajax({
+				url : "/buct-video-web/speaker/updateSpeaker",
+				data : $("#editSpeakerForm").serialize(),
+				type : "post",
+				success : function(data) {
+					if (data == 'success') {
+						swal({
+							title : "修改成功!",
+							text : "",
+							type : "success"
+						}, function() {
+							window.location.reload();
+						});
+					} else if (data == 'exist') {
+						swal("修改失败!", "该用户已经存在", "error");
+					} else {
+						swal("修改失败!", "请重试", "error");
+					}
+				}
+			})
+		}
+
+		function deleteSpeaker(id) {
 			swal({
 				title : "你确定要删除这一项吗？",
 				text : "",
@@ -615,26 +746,47 @@
 				inputPlaceholder : "组别",
 				confirmButtonText : "确定",
 				cancelButtonText : "取消",
-			},function(){
+			}, function() {
 				$.ajax({
 					url : "/buct-video-web/speaker/deleteSpeaker",
-					data : "id="+id,
+					data : "id=" + id,
 					type : "post",
 					success : function(data) {
 						if (data == 'success') {
 							swal({
-								title : "删除成功!", 
-								text : "", 
+								title : "删除成功!",
+								text : "",
 								type : "success"
-								},function(){
-									window.location.reload();
-								});
+							}, function() {
+								window.location.reload();
+							});
 						} else {
 							swal("删除失败!", "请重试", "error");
 						}
 					}
 				})
 			})
+		}
+		
+		
+		function importExcel() {
+			 $('#form1').ajaxSubmit({    
+                 url:'/buct-video-web/speaker/ajaxUploadExcel',  
+                 dataType: 'text',  
+                 success: function(data){
+                	 if (data == 'success') {
+ 						swal({
+ 							title : "导入成功!",
+ 							text : "",
+ 							type : "success"
+ 						}, function() {
+ 							window.location.reload();
+ 						});
+ 					} else {
+ 						swal("导入失败!", "请重试", "error");
+ 					}
+                 } 
+             }); 
 		}
 	</script>
 	<!--scrolling js-->

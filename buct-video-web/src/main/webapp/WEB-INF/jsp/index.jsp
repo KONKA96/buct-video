@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -241,13 +242,14 @@
 			<div class="charts">
 				<div class="col-md-12 chrt-page-grids">
 					<h4 class="title"></h4>
-					<div class="form-group">
+					<form id="dataForm">
+					<div class="form-group" style="float:left;">
 						<div class="input-group date form_datetime col-md-5"
 							data-date="2018-08-08T05:25:07Z"
 							data-date-format="yyyy-mm-dd hh:ii:ss"
 							data-link-field="dtp_input1">
-							<input class="form-control" name="startTime" size="16"
-								type="text" value="" readonly> <span
+							<input id="dateInput" class="form-control" name="time" size="16"
+								type="text" value="" onchange="loadEchartsData()" readonly> <span
 								class="input-group-addon"><span
 								class="glyphicon glyphicon-remove"></span></span> <span
 								class="input-group-addon"><span
@@ -255,12 +257,23 @@
 						</div>
 						<input type="hidden" id="dtp_input1" value="" /><br />
 					</div>
-					<div class="inbox-page"> 
-						用户:<input type="checkbox" class="checkbox"> 
-						学生:<input type="checkbox" class="checkbox"> 
+					<div class="inbox-page" style="float:left;">
+						<div style="float:left;">用户:<input type="checkbox" class="checkbox" name="rolePower" value="1" onclick="loadEchartsData()"> </div>
+						<div style="float:left;">学生:<input type="checkbox" class="checkbox" name="rolePower" value="2" onclick="loadEchartsData()"></div>
+					</div>
+
+					<div class="form-group" style="float:left;">
+						<label for="message-text" class="control-label">时长:</label> <select
+							class="form-control m-b" name="interval" onchange="loadEchartsData()">
+							<option value="1">1天</option>
+							<option value="3">3天</option>
+							<option value="7" selected>7天</option>
+							<option value="30">30天</option>
+						</select>
 					</div>
 					<canvas id="line" height="400" width="600"
 						style="width: 1000px; height: 500px;"></canvas>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -438,29 +451,41 @@
 			})
 		}
 		
-		var lineChartData;
-		var names = [];
-		var speakerNums = [];
-		var auditorNums = [];
-		var allUserNums = [];
+		
 		function loadEchartsData() {
-
+			var lineChartData;
+			var names = [];
+			var speakerNums = [];
+			var auditorNums = [];
+			var allUserNums = [];
+			
 			$.ajax({
 				url : "/buct-video-web/echarts/getEchartsData",
-				/* data:"rolePower=1", */
+				data:$("#dataForm").serialize(),
 				type : "post",
 				success : function(data) {
-					for (var i = 0; i < data.xAxisData.length; i++) {
-						names.push(data.xAxisData[i]); //挨个取出类别并填入类别数组
+					if(data.xAxisData!=null){
+						for (var i = 0; i < data.xAxisData.length; i++) {
+							names.push(data.xAxisData[i]); //挨个取出类别并填入类别数组
+						}
 					}
-					for (var i = 0; i < data.SpeakerList.length; i++) {
-						speakerNums.push(data.SpeakerList[i]); //挨个取出时间并填入数组
+					
+					if(data.SpeakerList!=null){
+						for (var i = 0; i < data.SpeakerList.length; i++) {
+							speakerNums.push(data.SpeakerList[i]); //挨个取出时间并填入数组
+						}
 					}
-					for (var i = 0; i < data.AuditorList.length; i++) {
-						auditorNums.push(data.AuditorList[i]); 
+					
+					if(data.AuditorList!=null){
+						for (var i = 0; i < data.AuditorList.length; i++) {
+							auditorNums.push(data.AuditorList[i]); 
+						}
 					}
-					for (var i = 0; i < data.AllUserList.length; i++) {
-						allUserNums.push(data.AllUserList[i]); 
+					
+					if(data.AllUserList!=null){
+						for (var i = 0; i < data.AllUserList.length; i++) {
+							allUserNums.push(data.AllUserList[i]); 
+						}
 					}
 					
 					var areaChartCanvas = document.getElementById("line").getContext("2d");
@@ -503,7 +528,6 @@
 	        forceParse: 0,
 	        showMeridian: 1
 	    });
-
 	</script>
 	<!--scrolling js-->
 	<script src="<%=basePath%>resources/js/jquery.nicescroll.js"></script>

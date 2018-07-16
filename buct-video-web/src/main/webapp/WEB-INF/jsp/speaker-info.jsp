@@ -89,8 +89,7 @@
 							class="fa arrow"></span></a>
 						<ul class="nav nav-second-level collapse">
 							<li><a href="/buct-video-web/login/toSpeakerInfo">个人信息</a></li>
-							<li><a href="javascript:void(0)"
-								onclick="resetPwd()">密码设置</a></li>
+							<li><a href="javascript:void(0)" onclick="resetPwd()">密码设置</a></li>
 						</ul> <!-- /nav-second-level --></li>
 				</ul>
 				<div class="clearfix"></div>
@@ -190,8 +189,8 @@
 							<ul class="dropdown-menu drp-mnu">
 								<li><a href="/buct-video-web/login/toSpeakerInfo"><i
 										class="fa fa-user"></i> 个人信息</a></li>
-								<li><a href="javascript:void(0)"
-								onclick="resetPwd()"><i class="fa fa-cog"></i> 密码设置</a></li>
+								<li><a href="javascript:void(0)" onclick="resetPwd()"><i
+										class="fa fa-cog"></i> 密码设置</a></li>
 								<li><a href="javascript:void(0)" onclick="userLogout()"><i
 										class="fa fa-sign-out"></i> 退出系统</a></li>
 							</ul></li>
@@ -211,55 +210,48 @@
 						<h4>Edit Form :</h4>
 					</div>
 					<div class="form-body">
-						<form data-toggle="validator">
+						<form data-toggle="validator" action="/buct-video-web/speaker/updateSpeakerInfo" method="post" enctype="multipart/form-data">
+							<input type="hidden" value="${speaker.id }" name="id">
+							<!-- 头像上传 -->
 							<div class="form-group">
-								<input type="text" class="form-control" id="inputName" name="username"
-									placeholder="Username" required>
+								<label for="message-text" class="control-label">头像：</label>
+								<div class="profile_img">
+									<span class="prfil-img"><img
+										src="<%=basePath%>upload/${speaker.iconImg }" alt=""> </span>
+									<div class="clearfix"></div>
+								</div>
+								
+								<div class="col-sm-4">
+									<input type="file" name="file" multiple="multiple" max="10" class="inputPic" accept="image/*">  
+                                </div>
 							</div>
+	
+							<!-- 用户名 -->
+							<div class="form-group">
+								<label class="col-sm-2 control-label">用户名：</label>
+								<input type="text" class="form-control" id="inputName"
+									name="username" placeholder="Username" required>
+							</div>
+							<!-- 真实姓名 -->
 							<div class="form-group has-feedback">
+								<label class="col-sm-2 control-label">真实姓名：</label>
 								<input type="text" class="form-control" id="inputEmail"
 									placeholder="truename" name="truename"
-									data-error="Bruh, that truename is invalid" required>
-								<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+									data-error="Bruh, that truename is invalid" required> <span
+									class="glyphicon form-control-feedback" aria-hidden="true"></span>
 								<span class="help-block with-errors">Please enter a valid
 									truename</span>
 							</div>
-							<!-- <div class="form-group">
-								<input type="password" data-toggle="validator"
-									data-minlength="6" class="form-control" id="inputPassword"
-									placeholder="Password" required> <span
-									class="help-block">Minimum of 6 characters</span>
-							</div> -->
 							<div class="form-group">
-								<input type="password" class="form-control"
+								<label class="col-sm-2 control-label">联系方式：</label>
+								<input type="text" class="form-control"
 									id="inputPasswordConfirm" data-match="#inputPassword"
 									data-match-error="Whoops, these don't match"
-									placeholder="Confirm password" required>
+									placeholder="telephone" required>
 								<div class="help-block with-errors"></div>
 							</div>
 							<div class="form-group">
-								<div class="radio">
-									<label> <input type="radio" name="gender" required>
-										Female
-									</label>
-								</div>
-								<div class="radio">
-									<label> <input type="radio" name="gender" required>
-										Male
-									</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="checkbox">
-									<label> <input type="checkbox" id="terms"
-										data-error="Before you wreck yourself" required> I
-										have read and accept terms of use.
-									</label>
-									<div class="help-block with-errors"></div>
-								</div>
-							</div>
-							<div class="form-group">
-								<button type="submit" class="btn btn-primary disabled">Submit</button>
+								<button type="submit" class="btn btn-primary">Submit</button>
 							</div>
 						</form>
 					</div>

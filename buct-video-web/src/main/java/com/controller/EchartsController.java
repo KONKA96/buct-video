@@ -36,7 +36,7 @@ public class EchartsController {
 	@RequestMapping(value="/getEchartsData",produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String getEchartsData(@RequestParam(required=false) String time,
-			@RequestParam(required=false,defaultValue="7") String interval,RecordPojo record) {
+			@RequestParam(required=false,defaultValue="7") String interval,@RequestParam(required=false) String rolePower) {
 		Map<String,Object> map=new HashMap<>();
 		if(time!=null && time!="") {
 			map.put("time", time);
@@ -50,41 +50,58 @@ public class EchartsController {
         List<String> AuditorList = new ArrayList<>();
         List<String> AllUserList = new ArrayList<>();
 		
+        //xAxisData和seriesList转为json 
+      	JSONObject jsonObject1 = new JSONObject(); 
+        
+        Map<String, Integer> recordMap;
+        Set<Entry<String, Integer>> set;
         //查询演讲者数据
-        map.put("rolePower", 1);
-		Map<String, Integer> recordMap = recordPojoService.selectRecord(map);
-		Set<Entry<String, Integer>> set = recordMap.entrySet();
-		for (Entry<String, Integer> entry : set) {
-			xAxisData.add(entry.getKey());
-			SpeakerList.add(entry.getValue().toString());
-		}
+        if(rolePower==null || rolePower.contains("1")) {
+        	map.put("rolePower", 1);
+    		recordMap = recordPojoService.selectRecord(map);
+    		set = recordMap.entrySet();
+    		for (Entry<String, Integer> entry : set) {
+    			xAxisData.add(entry.getKey());
+    			SpeakerList.add(entry.getValue().toString());
+    		}
+    		
+    		Collections.reverse(SpeakerList);
+    		jsonObject1.put("SpeakerList", SpeakerList);
+        }
+        
 		//查询听讲者数据
-		map.put("rolePower", 2);
-		recordMap = recordPojoService.selectRecord(map);
-		set = recordMap.entrySet();
-		for (Entry<String, Integer> entry : set) {
-			AuditorList.add(entry.getValue().toString());
-		}
-		//查询所有人数据
-		map.put("rolePower", null);
-		recordMap = recordPojoService.selectRecord(map);
-		set = recordMap.entrySet();
-		for (Entry<String, Integer> entry : set) {
-			AllUserList.add(entry.getValue().toString());
-		}
+        if(rolePower==null || rolePower.contains("2")) {
+        	map.put("rolePower", 2);
+    		recordMap = recordPojoService.selectRecord(map);
+    		set = recordMap.entrySet();
+    		for (Entry<String, Integer> entry : set) {
+    			AuditorList.add(entry.getValue().toString());
+    			if(xAxisData.size()>=7) {
+    				continue;
+    			}
+    			xAxisData.add(entry.getKey());
+    		}
+    		
+    		Collections.reverse(AuditorList);
+    		jsonObject1.put("AuditorList", AuditorList);
+        }
 		
-		Collections.reverse(SpeakerList);
-		Collections.reverse(AuditorList);
-		Collections.reverse(AllUserList);
+		//查询所有人数据
+        if(rolePower==null) {
+        	map.put("rolePower", null);
+    		recordMap = recordPojoService.selectRecord(map);
+    		set = recordMap.entrySet();
+    		for (Entry<String, Integer> entry : set) {
+    			AllUserList.add(entry.getValue().toString());
+    		}
+    		
+    		Collections.reverse(AllUserList);
+    		jsonObject1.put("AllUserList", AllUserList);
+        }
 		Collections.reverse(xAxisData);
-		//xAxisData和seriesList转为json 
-		JSONObject jsonObject1 = new JSONObject();  
-		   
+		 
 		jsonObject1.put("xAxisData", xAxisData);  
 		   
-		jsonObject1.put("SpeakerList", SpeakerList);
-		jsonObject1.put("AuditorList", AuditorList);
-		jsonObject1.put("AllUserList", AllUserList);
 		return jsonObject1.toString();
 	}
 	
