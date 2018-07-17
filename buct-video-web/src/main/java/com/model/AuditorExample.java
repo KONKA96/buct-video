@@ -24,8 +24,18 @@ public class AuditorExample {
     private String iconImg;
 
     private String remake;
+    
+    private GroupPojo group;
+    
+    public GroupPojo getGroup() {
+		return group;
+	}
 
-    public String getId() {
+	public void setGroup(GroupPojo group) {
+		this.group = group;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -120,4 +130,13 @@ public class AuditorExample {
     public void setRemake(String remake) {
         this.remake = remake == null ? null : remake.trim();
     }
+
+	@Override
+	public String toString() {
+		return "AuditorExample [id=" + id + ", snum=" + snum + ", username=" + username + ", password=" + password
+				+ ", truename=" + truename + ", sex=" + sex + ", phone=" + phone + ", groupId=" + groupId + ", useNum="
+				+ useNum + ", useDuration=" + useDuration + ", iconImg=" + iconImg + ", remake=" + remake + ", group="
+				+ group + "]";
+	}
+    
 }

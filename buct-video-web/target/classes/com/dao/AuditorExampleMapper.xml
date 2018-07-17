@@ -184,7 +184,7 @@
   
   <select id="auditorLogin" parameterType="java.util.Map" resultMap="auditorMapper">
   	select
-  		ae.id ae_id, ae.snum, ae.username, ae.password, ae.truename, ae.sex, ae.phone, ae.group_id, ae.user_num,
+  		ae.id ae_id, ae.snum, ae.username, ae.password, ae.truename, ae.sex, ae.phone, ae.group_id, ae.use_num,
   		ae.use_duration, ae.icon_img, ae.remake,
     	gp.id gp_id, gp.name, gp.group_desc
     from auditor_example ae
@@ -204,4 +204,8 @@
     	</if>
     </where>
   </select>
+  
+  <select id="selectAllAuditorId" resultType="java.lang.String">
+ 	select id from auditor_example
+ </select>
 </mapper>

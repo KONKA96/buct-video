@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,11 @@ public class SpeakerController {
 	@Autowired
 	private PageUtil pageUtil;
 
+	/**
+	 * 跳转到演讲者列表页
+	 * @param modelMap
+	 * @return
+	 */
 	@RequestMapping("/toSpeakerIndex")
 	public String toSpeakerIndex(ModelMap modelMap) {
 		Subject subject = SecurityUtils.getSubject();
@@ -121,7 +127,7 @@ public class SpeakerController {
 	}
 
 	/**
-	 * 检测输入的旧密码是否和原来匹配
+	 * 检测输入的旧密码是否和原来匹配（个人）
 	 * 
 	 * @param password
 	 * @return
@@ -139,6 +145,27 @@ public class SpeakerController {
 		}
 		return "";
 	}
+	
+	/**
+	 * 对比输入的密码和旧密码是否一致（用户）
+	 * @param password
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/testSpeakerOldPwd")
+	public String testSpeakerOldPwd(SpeakerExample speaker) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", speaker.getId());
+		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
+		if(speakerList.size()==0) {
+			return "error";
+		}else {
+			if(new Md5Hash(speaker.getPassword(), speakerList.get(0).getUsername(), 2).toString().equals(speakerList.get(0).getPassword())) {
+				return "same";
+			}
+		}
+		return "success";
+	}
 
 	/**
 	 * 添加、修改演讲者
@@ -149,36 +176,59 @@ public class SpeakerController {
 	@ResponseBody
 	@RequestMapping("/updateSpeaker")
 	public String updateSpeaker(SpeakerExample speaker) {
+		Subject subject = SecurityUtils.getSubject();
+		
 		Map<String, Object> map = new HashMap<>();
-		map.put("username", speaker.getUsername());
-
-		if (speaker.getId() != null) {
-			List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
-			if (speakerList.size() != 0) {
-				for (SpeakerExample speakerExample : speakerList) {
-					if (!speakerExample.getId().equals(speaker.getId())) {
-						return "exist";
+		List<SpeakerExample> speakerList =new ArrayList<>();
+		if(speaker.getUsername()!=null) {
+			map.put("username", speaker.getUsername());
+			
+			if (speaker.getId() != null) {
+				speakerList = speakerExampleService.speakerLogin(map);
+				if (speakerList.size() != 0) {
+					for (SpeakerExample speakerExample : speakerList) {
+						if (!speakerExample.getId().equals(speaker.getId())) {
+							logger.info(speaker.getId()+"用户已存在，添加失败");
+							return "exist";
+						}
 					}
 				}
+			} else {
+				speakerList = speakerExampleService.speakerLogin(map);
+				if (speakerList.size() != 0) {
+					logger.info(speaker.getId()+"用户已存在，添加失败");
+					return "exist";
+				}
 			}
+		}
+		
+		if (speaker.getId() != null) {
 			if (speakerExampleService.updateByPrimaryKeySelective(speaker) > 0) {
+				logger.info(subject.getPrincipal()+"修改用户:"+speaker.getUsername());
 				return "success";
 			}
-		} else {
-			List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
-			if (speakerList.size() != 0) {
-				return "exist";
-			}
+		}else {
 			if (speakerExampleService.insertSelective(speaker) > 0) {
+				logger.info(subject.getPrincipal()+"新增用户:"+speaker.getUsername());
 				return "success";
 			}
 		}
+
+		
 		return "";
 	}
-
+	
+	/**
+	 * 修改个人信息
+	 * @param file
+	 * @param speaker
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/updateSpeakerInfo")
 	public String updateSpeakerInfo(@RequestParam(value = "file") MultipartFile file, SpeakerExample speaker,
 			HttpServletRequest request) {
+		Subject subject = SecurityUtils.getSubject();
 		Map<String, Object> map = new HashMap<>();
 		map.put("username", speaker.getUsername());
 
@@ -186,6 +236,7 @@ public class SpeakerController {
 		if (speakerList.size() != 0) {
 			for (SpeakerExample speakerExample : speakerList) {
 				if (!speakerExample.getId().equals(speaker.getId())) {
+					logger.info(speaker.getId()+"用户已存在，添加失败");
 					return "exist";
 				}
 			}
@@ -210,6 +261,7 @@ public class SpeakerController {
 		speaker.setIconImg(newFileName);
 
 		if (speakerExampleService.updateByPrimaryKeySelective(speaker) > 0) {
+			logger.info(subject.getPrincipal()+"修改了个人信息");
 			return "redirect:/speaker/toSpeakerIndex";
 		}
 		return "";
@@ -224,18 +276,27 @@ public class SpeakerController {
 	@ResponseBody
 	@RequestMapping("/deleteSpeaker")
 	public String deleteSpeaker(SpeakerExample speaker) {
+		Subject subject = SecurityUtils.getSubject();
 		if (speakerExampleService.deleteByPrimaryKey(speaker) > 0) {
+			logger.info(subject.getPrincipal()+"删除了用户:"+speaker.getId());
 			return "success";
 		}
 		return "";
 	}
 
+	/**
+	 * excel批量上传用户
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping(value = "ajaxUploadExcel")
 	public void ajaxUploadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		Subject subject = SecurityUtils.getSubject();
 
-		System.out.println("通过 jquery.form.js 提供的ajax方式上传文件！");
+		logger.info(subject.getPrincipal()+"批量上传用户");
 
 		InputStream in = null;
 		List<List<Object>> listob = null;
@@ -261,6 +322,7 @@ public class SpeakerController {
 			speaker.setGroupId(Integer.parseInt((String) lo.get(6)));
 
 			if (speakerExampleService.insertSelective(speaker) > 0) {
+				logger.info(subject.getPrincipal()+"新增用户:"+speaker.getUsername());
 				count++;
 			}
 		}
@@ -271,10 +333,12 @@ public class SpeakerController {
 
 		if (count == listob.size()) {
 			out.print("success");
+			logger.info(subject.getPrincipal()+"成功上传了"+count+"位用户");
 		} else if (count == 0) {
+			logger.info(subject.getPrincipal()+"上传失败");
 			out.print("error");
 		} else {
-
+			logger.info(subject.getPrincipal()+"上传了"+count+"位用户，有"+(listob.size()-count)+"位用户上传失败");
 		}
 		out.flush();
 		out.close();

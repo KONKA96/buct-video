@@ -213,14 +213,14 @@
 		<!-- main content start-->
 		<div id="page-wrapper">
 			<div class="tables">
-				<h3 class="title1">用户角色列表</h3>
+				<h3 class="title1">学生角色列表</h3>
 				<div class="main-page">
 					<div class="form-two widget-shadow">
 						<div class="form-body" data-example-id="simple-form-inline">
 							<form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
 								<button type="button" class="btn btn-primary btn-lg"
 									data-toggle="modal" data-target="#exampleModal"
-									>新增用户</button>
+									>新增学生</button>
 								<div class="compose-right" style="float:left;">
 								<div class="btn btn-default btn-file">
 									<i class="fa fa-paperclip"></i> 选择文件
@@ -232,7 +232,7 @@
 								<button type="button" class="btn btn-success" onclick="addGroup()">Add New Group</button>
 
 								<h2 style="display: inline; float: right;">
-									<a href="javascript:void(0)" onclick="loadSpeaker(1)"><span class="label label-primary"
+									<a href="javascript:void(0)" onclick="loadAuditor(1)"><span class="label label-primary"
 										style="font-size: 18px;">搜索</span></a>
 								</h2>
 								<div class="form-group" style="float: right;">
@@ -254,10 +254,10 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="exampleModalLabel">New Speaker</h4>
+									<h4 class="modal-title" id="exampleModalLabel">New Auditor</h4>
 								</div>
 								<div class="modal-body">
-									<form id="addSpeakerForm">
+									<form id="addAuditorForm">
 										<div class="form-group">
 											<label for="recipient-name" class="control-label">Username:</label>
 											<input type="text" name="username" class="form-control">
@@ -274,8 +274,8 @@
 										<div class="form-group">
 											<label for="message-text" class="control-label">Sex:</label>
 											<select class="form-control m-b" name="sex">
-		                                    		<option value="0" ${speaker.sex==0 ? 'selected' :'' }>男</option>
-		                                    		<option value="1" ${speaker.sex==1 ? 'selected' :'' }>女</option>
+		                                    		<option value="0">男</option>
+		                                    		<option value="1">女</option>
 		                                    </select>
 										</div>
 										<div class="form-group">
@@ -289,7 +289,7 @@
 									<button type="button" class="btn btn-success" onclick="addGroup()">Add New Group</button>
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" onclick="addSpeaker()">Send
+									<button type="button" class="btn btn-primary" onclick="addAuditor()">Send
 										message</button>
 								</div>
 							</div>
@@ -307,10 +307,10 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="exampleModalLabel">Edit Speaker</h4>
+									<h4 class="modal-title" id="exampleModalLabel">Edit Auditor</h4>
 								</div>
 								<div class="modal-body">
-									<form id="editSpeakerForm">
+									<form id="editAuditorForm">
 										<input type="hidden" name="id" class="form-control" id="hiddenIdInput">
 										
 										<div class="form-group">
@@ -342,7 +342,7 @@
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" onclick="editSpeaker()">Send
+									<button type="button" class="btn btn-primary" onclick="editAuditor()">Send
 										message</button>
 								</div>
 							</div>
@@ -413,10 +413,10 @@
 
 		window.onload = function() {
 			loadGroup();
-			loadSpeaker(1);
+			loadAuditor(1);
 		}
 		
-		function loadSpeaker(page){
+		function loadAuditor(page){
 			var keyword=$("#keywordInput").val();
 			
 			var sendData="";
@@ -428,39 +428,39 @@
 			
 			$
 			.ajax({
-				url : "/buct-video-web/speaker/showAllSpeaker",
+				url : "/buct-video-web/auditor/showAllAuditor",
 				data: sendData,
 				type : "post",
 				success : function(data) {
 					$("#tbody1").empty();
-					for (var i = 1; i <= data.speakerList.length; i++) {
+					for (var i = 1; i <= data.auditorList.length; i++) {
 						var sex;
 						var group = "";
-						var id=data.speakerList[i - 1].id;
-						if (data.speakerList[i - 1].sex == 0) {
+						var id=data.auditorList[i - 1].id;
+						if (data.auditorList[i - 1].sex == 0) {
 							sex = "男";
 						} else {
 							sex = "女";
 						}
 
-						if (data.speakerList[i - 1].group != null) {
-							group = data.speakerList[i - 1].group.name
+						if (data.auditorList[i - 1].group != null) {
+							group = data.auditorList[i - 1].group.name
 						}
 						$("#tbody1")
 								.append(
 										"<tr><th scope='row'>"
 												+ i
 												+ "</th><td>"
-												+ data.speakerList[i - 1].username
+												+ data.auditorList[i - 1].username
 												+ "</td><td>"
-												+ data.speakerList[i - 1].truename
+												+ data.auditorList[i - 1].truename
 												+ "</td><td>"
 												+ sex
 												+ "</td><td>"
-												+ data.speakerList[i - 1].phone
+												+ data.auditorList[i - 1].phone
 												+ "</td><td>"
 												+ group
-												+ "</td><td><h3><a href='javascript:void(0)' onclick='toEditSpeaker(\""+data.speakerList[i - 1].id+"\")' data-toggle='modal' data-target='#exampleModal2'><span class='label label-warning'>编辑</span></a><a href='javascript:void(0)' onclick='deleteSpeaker(\""+data.speakerList[i - 1].id+"\")'><span class='label label-danger'>删除</span></a> <a href='javascript:void(0)' onclick='resetSpeakerPwd(\""+data.speakerList[i - 1].id+"\")'><span class='label label-default'>重置密码</span></a></h3></td></tr>");
+												+ "</td><td><h3><a href='javascript:void(0)' onclick='toEditAuditor(\""+data.auditorList[i - 1].id+"\")' data-toggle='modal' data-target='#exampleModal2'><span class='label label-warning'>编辑</span></a><a href='javascript:void(0)' onclick='deleteAuditor(\""+data.auditorList[i - 1].id+"\")'><span class='label label-danger'>删除</span></a> <a href='javascript:void(0)' onclick='resetAuditorPwd(\""+data.auditorList[i - 1].id+"\")'><span class='label label-default'>重置密码</span></a></h3></td></tr>");
 					}
 					
 					/* 加载分页按钮 */
@@ -469,22 +469,22 @@
 						$("#pageHelper").append("<li class='disabled'><a href='javascript:void(0)' aria-label='Previous'><span aria-hidden='true'>«</span></a></li>");
 						for (var i = 1; i <= 5; i++) {
 							if(i==data.index){
-								$("#pageHelper").append("<li class='active'><a href='javascript:void(0)' onclick='loadSpeaker("+i+")'>"+i+"<span class='sr-only'>(current)</span></a></li>");
+								$("#pageHelper").append("<li class='active'><a href='javascript:void(0)' onclick='loadAuditor("+i+")'>"+i+"<span class='sr-only'>(current)</span></a></li>");
 							}else{
-								$("#pageHelper").append("<li><a href='javascript:void(0)' onclick='loadSpeaker("+i+")'>"+i+"</a></li>");
+								$("#pageHelper").append("<li><a href='javascript:void(0)' onclick='loadAuditor("+i+")'>"+i+"</a></li>");
 							}
 						}
 					}else{
-						$("#pageHelper").append("<li><a href='javascript:void(0)' aria-label='Previous' onclick='loadSpeaker("+(data.index-2)+")'><span aria-hidden='true'>«</span></a></li>");
+						$("#pageHelper").append("<li><a href='javascript:void(0)' aria-label='Previous' onclick='loadAuditor("+(data.index-2)+")'><span aria-hidden='true'>«</span></a></li>");
 						for (var i = data.index-2; i <= data.index+2; i++) {
 							if(i==data.index){
-								$("#pageHelper").append("<li class='active'><a href='javascript:void(0)' onclick='loadSpeaker("+i+")'>"+i+"<span class='sr-only'>(current)</span></a></li>");
+								$("#pageHelper").append("<li class='active'><a href='javascript:void(0)' onclick='loadAuditor("+i+")'>"+i+"<span class='sr-only'>(current)</span></a></li>");
 							}else{
-								$("#pageHelper").append("<li><a href='javascript:void(0)' onclick='loadSpeaker("+i+")'>"+i+"</a></li>");
+								$("#pageHelper").append("<li><a href='javascript:void(0)' onclick='loadAuditor("+i+")'>"+i+"</a></li>");
 							}
 						}
 					}
-					$("#pageHelper").append("<li><a href='javascript:void(0)' aria-label='Next' onclick='loadSpeaker("+(data.index+2)+")'><span aria-hidden='true'>»</span></a></li>");
+					$("#pageHelper").append("<li><a href='javascript:void(0)' aria-label='Next' onclick='loadAuditor("+(data.index+2)+")'><span aria-hidden='true'>»</span></a></li>");
 					
 					
 				}
@@ -492,7 +492,7 @@
 		}
 		
 		/* 重置用户密码 */
-		function resetSpeakerPwd(id){
+		function resetAuditorPwd(id){
 			swal({
 				title : "请输入新密码",
 				text : "",
@@ -505,7 +505,7 @@
 				cancelButtonText : "取消",
 			}, function(inputValue) {
 				$.ajax({
-					url : "/buct-video-web/speaker/testSpeakerOldPwd",
+					url : "/buct-video-web/auditor/testAuditorOldPwd",
 					data : "id="+id+"&password="+inputValue ,
 					type : "post",
 					success : function(data) {
@@ -537,7 +537,7 @@
 					swal("两次输入的密码不一致!", "请重试", "error");
 				}else{
 					$.ajax({
-						url : "/buct-video-web/speaker/updateSpeaker",
+						url : "/buct-video-web/auditor/updateAuditor",
 						data : "id="+id+"&password="+inputValue ,
 						type : "post",
 						success : function(data) {
@@ -553,10 +553,10 @@
 		}
 		
 		
-		function toEditSpeaker(id) {
+		function toEditAuditor(id) {
 			var groupId;
 			$.ajax({
-				url : "/buct-video-web/speaker/showSpeakerInfo",
+				url : "/buct-video-web/auditor/showAuditorInfo",
 				data : "id=" + id,
 				type : "post",
 				success : function(data) {
@@ -750,10 +750,10 @@
 			})
 		}
 
-		function addSpeaker() {
+		function addAuditor() {
 			$.ajax({
-				url : "/buct-video-web/speaker/updateSpeaker",
-				data : $("#addSpeakerForm").serialize(),
+				url : "/buct-video-web/auditor/updateAuditor",
+				data : $("#addAuditorForm").serialize(),
 				type : "post",
 				success : function(data) {
 					if (data == 'success') {
@@ -773,10 +773,10 @@
 			})
 		}
 		
-		function editSpeaker() {
+		function editAuditor() {
 			$.ajax({
-				url : "/buct-video-web/speaker/updateSpeaker",
-				data : $("#editSpeakerForm").serialize(),
+				url : "/buct-video-web/auditor/updateAuditor",
+				data : $("#editAuditorForm").serialize(),
 				type : "post",
 				success : function(data) {
 					if (data == 'success') {
@@ -796,7 +796,7 @@
 			})
 		}
 
-		function deleteSpeaker(id) {
+		function deleteAuditor(id) {
 			swal({
 				title : "你确定要删除这一项吗？",
 				text : "",
@@ -809,7 +809,7 @@
 				cancelButtonText : "取消",
 			}, function() {
 				$.ajax({
-					url : "/buct-video-web/speaker/deleteSpeaker",
+					url : "/buct-video-web/auditor/deleteAuditor",
 					data : "id=" + id,
 					type : "post",
 					success : function(data) {
@@ -832,7 +832,7 @@
 		
 		function importExcel() {
 			 $('#form1').ajaxSubmit({    
-                 url:'/buct-video-web/speaker/ajaxUploadExcel',  
+                 url:'/buct-video-web/auditor/ajaxUploadExcel',  
                  dataType: 'text',  
                  success: function(data){
                 	 if (data == 'success') {

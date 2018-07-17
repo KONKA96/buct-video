@@ -6,6 +6,8 @@ import java.util.Map;
 import com.model.AuditorExample;
 
 public interface AuditorExampleMapper {
+	List<String> selectAllAuditorId();
+	
 	List<AuditorExample> auditorLogin(Map<String,Object> map);
 	
     int deleteByPrimaryKey(String id);
