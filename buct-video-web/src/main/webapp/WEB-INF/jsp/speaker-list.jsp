@@ -88,9 +88,11 @@
 				<ul class="nav" id="side-menu">
 					<li><a href="/buct-video-web/login/toIndex"><i
 							class="fa fa-home nav_icon"></i>使用数据</a></li>
-					<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
-							class="fa fa-th-large nav_icon"></i>用户管理 <span
-							class="nav-badge-btm"></span></a></li>
+					<c:if test="${speaker.rolePower==0 }">
+						<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
+								class="fa fa-th-large nav_icon"></i>用户管理 <span
+								class="nav-badge-btm"></span></a></li>
+					</c:if>
 					<li><a href="/buct-video-web/auditor/toAuditorIndex"><i
 							class="fa fa-table nav_icon"></i>学生管理 </a></li>
 					<li><a href="#"><i class="fa fa-cogs nav_icon"></i>系统配置 <span
@@ -116,7 +118,7 @@
 				<!--toggle button end-->
 				<!--logo -->
 				<div class="logo">
-					<a href="index.html">
+					<a href="/buct-video-web/login/toIndex">
 						<h1>NOVUS</h1> <span>AdminPanel</span> <%-- <h1><img src="<%=basePath%>resources/images/logo.jpg" alt=""></h1><span>AdminPanel</span> --%>
 					</a>
 				</div>
@@ -152,7 +154,7 @@
 								</li>
 								<li><a href="#">
 										<div class="user_img">
-											<img src="<%=basePath%>resources/images/2.png" alt="">
+											<img src="<%=basePath%>upload/${speaker.iconImg }" alt="">
 										</div>
 										<div class="notification_desc">
 											<p>Lorem ipsum dolor amet</p>
@@ -217,23 +219,25 @@
 				<div class="main-page">
 					<div class="form-two widget-shadow">
 						<div class="form-body" data-example-id="simple-form-inline">
-							<form class="form-inline" id="form1" enctype="multipart/form-data" method="post">
+							<form class="form-inline" id="form1"
+								enctype="multipart/form-data" method="post">
 								<button type="button" class="btn btn-primary btn-lg"
-									data-toggle="modal" data-target="#exampleModal"
-									>新增用户</button>
-								<div class="compose-right" style="float:left;">
-								<div class="btn btn-default btn-file">
-									<i class="fa fa-paperclip"></i> 选择文件
-									<input type="file" name="file" id="upfile">
+									data-toggle="modal" data-target="#exampleModal">新增用户</button>
+								<div class="compose-right" style="float: left;">
+									<div class="btn btn-default btn-file">
+										<i class="fa fa-paperclip"></i> 选择文件 <input type="file"
+											name="file" id="upfile">
+									</div>
 								</div>
-								</div>
-								<button type="button" class="btn btn-primary btn-lg" onclick="importExcel()">批量导入</button>
-									
-								<button type="button" class="btn btn-success" onclick="addGroup()">Add New Group</button>
+								<button type="button" class="btn btn-primary btn-lg"
+									onclick="importExcel()">批量导入</button>
+
+								<button type="button" class="btn btn-success"
+									onclick="addGroup()">Add New Group</button>
 
 								<h2 style="display: inline; float: right;">
-									<a href="javascript:void(0)" onclick="loadSpeaker(1)"><span class="label label-primary"
-										style="font-size: 18px;">搜索</span></a>
+									<a href="javascript:void(0)" onclick="loadSpeaker(1)"><span
+										class="label label-primary" style="font-size: 18px;">搜索</span></a>
 								</h2>
 								<div class="form-group" style="float: right;">
 									<input type="text" class="form-control" id="keywordInput"
@@ -270,33 +274,35 @@
 											<label for="message-text" class="control-label">Truename:</label>
 											<input type="text" name="truename" class="form-control">
 										</div>
-										
+
 										<div class="form-group">
 											<label for="message-text" class="control-label">Sex:</label>
 											<select class="form-control m-b" name="sex">
-		                                    		<option value="0" ${speaker.sex==0 ? 'selected' :'' }>男</option>
-		                                    		<option value="1" ${speaker.sex==1 ? 'selected' :'' }>女</option>
-		                                    </select>
+												<option value="0" ${speaker.sex==0 ? 'selected' :'' }>男</option>
+												<option value="1" ${speaker.sex==1 ? 'selected' :'' }>女</option>
+											</select>
 										</div>
 										<div class="form-group">
 											<label for="message-text" class="control-label">Group:</label>
-											<select class="form-control m-b" name="groupId" id="groupSelected">
-		                                    </select>
+											<select class="form-control m-b" name="groupId"
+												id="groupSelected">
+											</select>
 										</div>
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-success" onclick="addGroup()">Add New Group</button>
+									<button type="button" class="btn btn-success"
+										onclick="addGroup()">Add New Group</button>
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" onclick="addSpeaker()">Send
-										message</button>
+									<button type="button" class="btn btn-primary"
+										onclick="addSpeaker()">Send message</button>
 								</div>
 							</div>
 						</div>
 					</div>
-					
-					
+
+
 					<!-- 隐藏弹框 编辑用户 -->
 					<div class="modal fade" id="exampleModal2" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalLabel">
@@ -307,15 +313,18 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="exampleModalLabel">Edit Speaker</h4>
+									<h4 class="modal-title" id="exampleModalLabel">Edit
+										Speaker</h4>
 								</div>
 								<div class="modal-body">
 									<form id="editSpeakerForm">
-										<input type="hidden" name="id" class="form-control" id="hiddenIdInput">
-										
+										<input type="hidden" name="id" class="form-control"
+											id="hiddenIdInput">
+
 										<div class="form-group">
 											<label for="recipient-name" class="control-label">Username:</label>
-											<input type="text" name="username" class="form-control" id="usernameInput">
+											<input type="text" name="username" class="form-control"
+												id="usernameInput">
 										</div>
 										<!-- <div class="form-group">
 											<label for="message-text" class="control-label">Password:</label>
@@ -323,27 +332,29 @@
 										</div> -->
 										<div class="form-group">
 											<label for="message-text" class="control-label">Truename:</label>
-											<input type="text" name="truename" class="form-control" id="truenameInput">
+											<input type="text" name="truename" class="form-control"
+												id="truenameInput">
 										</div>
-										
+
 										<div class="form-group">
 											<label for="message-text" class="control-label">Sex:</label>
 											<select class="form-control m-b" name="sex" id="sexSelect">
-		                                    		
-		                                    </select>
+
+											</select>
 										</div>
 										<div class="form-group">
 											<label for="message-text" class="control-label">Group:</label>
-											<select class="form-control m-b" name="groupId" id="groupSelected1">
-		                                    </select>
+											<select class="form-control m-b" name="groupId"
+												id="groupSelected1">
+											</select>
 										</div>
 									</form>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary" onclick="editSpeaker()">Send
-										message</button>
+									<button type="button" class="btn btn-primary"
+										onclick="editSpeaker()">Send message</button>
 								</div>
 							</div>
 						</div>

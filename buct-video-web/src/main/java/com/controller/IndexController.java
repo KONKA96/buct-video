@@ -96,7 +96,12 @@ public class IndexController {
 	}
 	
 	@RequestMapping("/toIndex")
-	public String toIndex() {
+	public String toIndex(ModelMap modelMap) {
+		Subject subject = SecurityUtils.getSubject();
+		Map<String,Object> map=new HashMap<>();
+		map.put("username", (String) subject.getPrincipal());
+		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
+		modelMap.addAttribute("speaker", speakerList.get(0));
 		return "/index";
 	}
 	

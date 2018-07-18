@@ -78,8 +78,15 @@ public class AuditorController {
 	public String showAllAuditor(AuditorExample auditor,ModelMap modelMap,@RequestParam(required=true,defaultValue="1") Integer index,
             @RequestParam(required=false,defaultValue="15") Integer pageSize,HttpServletRequest request) {
 		Map<String,Object> map=new HashMap<>();
-		//查询演讲者角色
-		map.put("rolePower", 1);
+		
+		Subject subject = SecurityUtils.getSubject();
+		map.put("username", subject.getPrincipal());
+		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
+		map=new HashMap<>();
+		if(speakerList.get(0).getRolePower()==1) {
+			map.put("speakerId", speakerList.get(0).getId());
+		}
+		
 		
 		JSONObject obj = new JSONObject();
 		//拼接查询条件

@@ -16,7 +16,9 @@
 <title>Insert title here</title>
 <script type="application/x-javascript">
 	
+	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+
 
 </script>
 <!-- Bootstrap Core CSS -->
@@ -68,7 +70,7 @@
 <link href="<%=basePath%>resources/css/sweetalert.css" rel="stylesheet">
 
 <link
-	href="<%=basePath %>resources/css/bootstrap-datetimepicker.min.css"
+	href="<%=basePath%>resources/css/bootstrap-datetimepicker.min.css"
 	rel="stylesheet">
 <script
 	src="<%=basePath%>resources/js/bootstrap-datetimepicker.js?v=1.0.1"></script>
@@ -83,9 +85,11 @@
 				<ul class="nav" id="side-menu">
 					<li><a href="/buct-video-web/login/toIndex"><i
 							class="fa fa-home nav_icon"></i>使用数据</a></li>
-					<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
-							class="fa fa-th-large nav_icon"></i>用户管理 <span
-							class="nav-badge-btm"></span></a></li>
+					<c:if test="${speaker.rolePower==0 }">
+						<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
+								class="fa fa-th-large nav_icon"></i>用户管理 <span
+								class="nav-badge-btm"></span></a></li>
+					</c:if>
 					<li><a href="/buct-video-web/auditor/toAuditorIndex"><i
 							class="fa fa-table nav_icon"></i>学生管理 </a></li>
 					<li><a href="#"><i class="fa fa-cogs nav_icon"></i>系统配置 <span
@@ -109,7 +113,7 @@
 				<!--toggle button end-->
 				<!--logo -->
 				<div class="logo">
-					<a href="index.html">
+					<a href="/buct-video-web/login/toIndex">
 						<h1>NOVUS</h1> <span>AdminPanel</span>
 					</a>
 				</div>
@@ -243,36 +247,43 @@
 				<div class="col-md-12 chrt-page-grids">
 					<h4 class="title"></h4>
 					<form id="dataForm">
-					<div class="form-group" style="float:left;">
-						<div class="input-group date form_datetime col-md-5"
-							data-date="2018-08-08T05:25:07Z"
-							data-date-format="yyyy-mm-dd hh:ii:ss"
-							data-link-field="dtp_input1">
-							<input id="dateInput" class="form-control" name="time" size="16"
-								type="text" value="" onchange="loadEchartsData()" readonly> <span
-								class="input-group-addon"><span
-								class="glyphicon glyphicon-remove"></span></span> <span
-								class="input-group-addon"><span
-								class="glyphicon glyphicon-th"></span></span>
+						<div class="form-group" style="float: left;">
+							<div class="input-group date form_datetime col-md-5"
+								data-date="2018-08-08T05:25:07Z"
+								data-date-format="yyyy-mm-dd hh:ii:ss"
+								data-link-field="dtp_input1">
+								<input id="dateInput" class="form-control" name="time" size="16"
+									type="text" value="" onchange="loadEchartsData()" readonly>
+								<span class="input-group-addon"><span
+									class="glyphicon glyphicon-remove"></span></span> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-th"></span></span>
+							</div>
+							<input type="hidden" id="dtp_input1" value="" /><br />
 						</div>
-						<input type="hidden" id="dtp_input1" value="" /><br />
-					</div>
-					<div class="inbox-page" style="float:left;">
-						<div style="float:left;">用户:<input type="checkbox" class="checkbox" name="rolePower" value="1" onclick="loadEchartsData()"> </div>
-						<div style="float:left;">学生:<input type="checkbox" class="checkbox" name="rolePower" value="2" onclick="loadEchartsData()"></div>
-					</div>
+						<div class="inbox-page" style="float: left;">
+							<div style="float: left;">
+								用户:<input type="checkbox" class="checkbox" name="rolePower"
+									value="1" onclick="loadEchartsData()">
+							</div>
+							<div style="float: left;">
+								学生:<input type="checkbox" class="checkbox" name="rolePower"
+									value="2" onclick="loadEchartsData()">
+							</div>
+						</div>
 
-					<div class="form-group" style="float:left;">
-						<label for="message-text" class="control-label">时长:</label> <select
-							class="form-control m-b" name="interval" onchange="loadEchartsData()">
-							<option value="1">1天</option>
-							<option value="3">3天</option>
-							<option value="7" selected>7天</option>
-							<option value="30">30天</option>
-						</select>
-					</div>
-					<canvas id="line" height="400" width="600"
-						style="width: 1000px; height: 500px;"></canvas>
+						<div class="form-group" style="float: left;">
+							<label for="message-text" class="control-label">时长:</label> <select
+								class="form-control m-b" name="interval"
+								onchange="loadEchartsData()">
+								<option value="1">1天</option>
+								<option value="3">3天</option>
+								<option value="7" selected>7天</option>
+								<option value="30">30天</option>
+							</select>
+						</div>
+						<canvas id="line" height="400" width="600"
+							style="width: 1000px; height: 500px;"></canvas>
 					</form>
 				</div>
 			</div>
@@ -308,7 +319,6 @@
 
 			loadEchartsData();
 		}
-
 
 		function loadSpeakerTime() {
 			$.ajax({
@@ -450,84 +460,84 @@
 				}
 			})
 		}
-		
-		
+
 		function loadEchartsData() {
 			var lineChartData;
 			var names = [];
 			var speakerNums = [];
 			var auditorNums = [];
 			var allUserNums = [];
-			
+
 			$.ajax({
 				url : "/buct-video-web/echarts/getEchartsData",
-				data:$("#dataForm").serialize(),
+				data : $("#dataForm").serialize(),
 				type : "post",
 				success : function(data) {
-					if(data.xAxisData!=null){
+					if (data.xAxisData != null) {
 						for (var i = 0; i < data.xAxisData.length; i++) {
 							names.push(data.xAxisData[i]); //挨个取出类别并填入类别数组
 						}
 					}
-					
-					if(data.SpeakerList!=null){
+
+					if (data.SpeakerList != null) {
 						for (var i = 0; i < data.SpeakerList.length; i++) {
 							speakerNums.push(data.SpeakerList[i]); //挨个取出时间并填入数组
 						}
 					}
-					
-					if(data.AuditorList!=null){
+
+					if (data.AuditorList != null) {
 						for (var i = 0; i < data.AuditorList.length; i++) {
-							auditorNums.push(data.AuditorList[i]); 
+							auditorNums.push(data.AuditorList[i]);
 						}
 					}
-					
-					if(data.AllUserList!=null){
+
+					if (data.AllUserList != null) {
 						for (var i = 0; i < data.AllUserList.length; i++) {
-							allUserNums.push(data.AllUserList[i]); 
+							allUserNums.push(data.AllUserList[i]);
 						}
 					}
-					
-					var areaChartCanvas = document.getElementById("line").getContext("2d");
-	                var areaChart = new Chart(areaChartCanvas);
-	                
-	                areaChart.Line({
-	                	labels : names,
-	        			datasets : [ {
-	        				fillColor : "rgba(51, 51, 51, 0)",
-	        				strokeColor : "#5153BD",
-	        				pointColor : "#5153BD",
-	        				pointStrokeColor : "#fff",
-	        				data : speakerNums
-	        			}, {
-	        				fillColor : "rgba(51, 51, 51, 0)",
-	        				strokeColor : "#585858",
-	        				pointColor : "#585858",
-	        				pointStrokeColor : "#fff",
-	        				data : auditorNums
-	        			}, {
-	        				fillColor : "rgba(51, 51, 51, 0)",
-	        				strokeColor : "#E04C00",
-	        				pointColor : "#E04C00",
-	        				pointStrokeColor : "#fff",
-	        				data : allUserNums
-	        			} ]
-	                	
-	                })
+
+					var areaChartCanvas = document.getElementById("line")
+							.getContext("2d");
+					var areaChart = new Chart(areaChartCanvas);
+
+					areaChart.Line({
+						labels : names,
+						datasets : [ {
+							fillColor : "rgba(51, 51, 51, 0)",
+							strokeColor : "#5153BD",
+							pointColor : "#5153BD",
+							pointStrokeColor : "#fff",
+							data : speakerNums
+						}, {
+							fillColor : "rgba(51, 51, 51, 0)",
+							strokeColor : "#585858",
+							pointColor : "#585858",
+							pointStrokeColor : "#fff",
+							data : auditorNums
+						}, {
+							fillColor : "rgba(51, 51, 51, 0)",
+							strokeColor : "#E04C00",
+							pointColor : "#E04C00",
+							pointStrokeColor : "#fff",
+							data : allUserNums
+						} ]
+
+					})
 				}
 			})
 		}
-		
+
 		//日历插件
 		$('.form_datetime').datetimepicker({
-	        weekStart: 0, //一周从哪一天开始
-	        todayBtn:  1, //
-	        autoclose: 1,
-	        todayHighlight: 1,
-	        startView: 0,
-	        forceParse: 0,
-	        showMeridian: 1
-	    });
+			weekStart : 0, //一周从哪一天开始
+			todayBtn : 1, //
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 0,
+			forceParse : 0,
+			showMeridian : 1
+		});
 	</script>
 	<!--scrolling js-->
 	<script src="<%=basePath%>resources/js/jquery.nicescroll.js"></script>

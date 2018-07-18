@@ -36,29 +36,25 @@ public class LoginRealm extends AuthorizingRealm{
      * 获取身份信息，我们可以在这个方法中，从数据库获取该用户的权限和角色信息
      *     当调用权限验证时，就会调用此方法
      */
-    /*protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+   protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        String username = (String) getAvailablePrincipal(principalCollection);
-
-        Role role = null;
-
+        List<SpeakerExample> speakerList=new ArrayList<>();
         try {
-            Userlogin userlogin = userloginService.findByName(username);
-            //获取角色对象
-            role = roleService.findByid(userlogin.getRole());
+        	SpeakerExample speaker=new SpeakerExample();
+            Map<String,Object> map=new HashMap<>();
+    		map.put("username", speaker.getUsername());
+    		speakerList = speakerExampleService.speakerLogin(map);
         } catch (Exception e) {
             e.printStackTrace();
         }
         //通过用户名从数据库获取权限/角色信息
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        Set<String> r = new HashSet<String>();
-        if (role != null) {
-            r.add(role.getRolename());
-            info.setRoles(r);
-        }
+        List<String> roles=new ArrayList<>();
+        roles.add(speakerList.get(0).getRolePower().toString());
+        info.addRoles(roles);
 
         return info;
-    }*/
+    }
 
     /**
      * 在这个方法中，进行身份验证
@@ -71,9 +67,8 @@ public class LoginRealm extends AuthorizingRealm{
         String password = new String((char[])token.getCredentials());
         //password=new Md5Hash(password, username ,2).toString();
         
-        SpeakerExample speaker=new SpeakerExample();
         Map<String,Object> map=new HashMap<>();
-		map.put("username", speaker.getUsername());
+		map.put("username", username);
 		List<SpeakerExample> speakerList = speakerExampleService.speakerLogin(map);
 
         if (speakerList.size()==0) {
@@ -89,10 +84,4 @@ public class LoginRealm extends AuthorizingRealm{
 
         return aInfo;
     }
-
-	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

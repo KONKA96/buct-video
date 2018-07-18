@@ -14,10 +14,11 @@
     <result column="use_duration" property="useDuration" jdbcType="VARCHAR" />
     <result column="icon_img" property="iconImg" jdbcType="VARCHAR" />
     <result column="remake" property="remake" jdbcType="VARCHAR" />
+    <result column="speaker_id" property="speakerId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, snum, username, password, truename, sex, phone, group_id, use_num, use_duration, 
-    icon_img, remake
+    icon_img, remake, speaker_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -33,13 +34,13 @@
     insert into auditor_example (id, snum, username, 
       password, truename, sex, 
       phone, group_id, use_num, 
-      use_duration, icon_img, remake
-      )
+      use_duration, icon_img, remake, 
+      speaker_id)
     values (#{id,jdbcType=VARCHAR}, #{snum,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
       #{phone,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, #{useNum,jdbcType=INTEGER}, 
-      #{useDuration,jdbcType=VARCHAR}, #{iconImg,jdbcType=VARCHAR}, #{remake,jdbcType=VARCHAR}
-      )
+      #{useDuration,jdbcType=VARCHAR}, #{iconImg,jdbcType=VARCHAR}, #{remake,jdbcType=VARCHAR}, 
+      #{speakerId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.model.AuditorExample" >
     insert into auditor_example
@@ -80,6 +81,9 @@
       <if test="remake != null" >
         remake,
       </if>
+      <if test="speakerId != null" >
+        speaker_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -117,6 +121,9 @@
       </if>
       <if test="remake != null" >
         #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="speakerId != null" >
+        #{speakerId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="remake != null" >
         remake = #{remake,jdbcType=VARCHAR},
       </if>
+      <if test="speakerId != null" >
+        speaker_id = #{speakerId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -171,7 +181,8 @@
       use_num = #{useNum,jdbcType=INTEGER},
       use_duration = #{useDuration,jdbcType=VARCHAR},
       icon_img = #{iconImg,jdbcType=VARCHAR},
-      remake = #{remake,jdbcType=VARCHAR}
+      remake = #{remake,jdbcType=VARCHAR},
+      speaker_id = #{speakerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -185,7 +196,7 @@
   <select id="auditorLogin" parameterType="java.util.Map" resultMap="auditorMapper">
   	select
   		ae.id ae_id, ae.snum, ae.username, ae.password, ae.truename, ae.sex, ae.phone, ae.group_id, ae.use_num,
-  		ae.use_duration, ae.icon_img, ae.remake,
+  		ae.use_duration, ae.icon_img, ae.remake, ae.speaker_id,
     	gp.id gp_id, gp.name, gp.group_desc
     from auditor_example ae
     left join group_pojo gp on ae.group_id=gp.id
@@ -198,6 +209,9 @@
     	</if>
     	<if test="groupId!=null and groupId!=''">
     		and ae.group_id=#{groupId}
+    	</if>
+    	<if test="speakerId!=null and speakerId!=''">
+    		and ae.speaker_id=#{speakerId}
     	</if>
     	<if test="keyword!=null and keyword!=''">
     		and concat (ae.username,ae.truename,ae.phone,gp.name) like concat ('%',#{keyword},'%')

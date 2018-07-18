@@ -16,7 +16,9 @@
 	
 	
 	
+	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+
 
 
 
@@ -80,9 +82,11 @@
 				<ul class="nav" id="side-menu">
 					<li><a href="/buct-video-web/login/toIndex"><i
 							class="fa fa-home nav_icon"></i>使用数据</a></li>
-					<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
-							class="fa fa-th-large nav_icon"></i>用户管理 <span
-							class="nav-badge-btm"></span></a></li>
+					<c:if test="${speaker.rolePower==0 }">
+						<li><a href="/buct-video-web/speaker/toSpeakerIndex"><i
+								class="fa fa-th-large nav_icon"></i>用户管理 <span
+								class="nav-badge-btm"></span></a></li>
+					</c:if>
 					<li><a href="/buct-video-web/auditor/toAuditorIndex"><i
 							class="fa fa-table nav_icon"></i>学生管理 </a></li>
 					<li><a href="#"><i class="fa fa-cogs nav_icon"></i>系统配置 <span
@@ -107,7 +111,7 @@
 				<!--toggle button end-->
 				<!--logo -->
 				<div class="logo">
-					<a href="#">
+					<a href="/buct-video-web/login/toIndex">
 						<h1>NOVUS</h1> <span>AdminPanel</span> <%-- <h1><img src="<%=basePath%>resources/images/logo.jpg" alt=""></h1><span>AdminPanel</span> --%>
 					</a>
 				</div>
@@ -210,7 +214,9 @@
 						<h4>Edit Form :</h4>
 					</div>
 					<div class="form-body">
-						<form data-toggle="validator" action="/buct-video-web/speaker/updateSpeakerInfo" method="post" enctype="multipart/form-data">
+						<form data-toggle="validator"
+							action="/buct-video-web/speaker/updateSpeakerInfo" method="post"
+							enctype="multipart/form-data">
 							<input type="hidden" value="${speaker.id }" name="id">
 							<!-- 头像上传 -->
 							<div class="form-group">
@@ -220,31 +226,34 @@
 										src="<%=basePath%>upload/${speaker.iconImg }" alt=""> </span>
 									<div class="clearfix"></div>
 								</div>
-								
+
 								<div class="col-sm-4">
-									<input type="file" name="file" multiple="multiple" max="10" class="inputPic" accept="image/*">  
-                                </div>
+									<input type="file" name="file" multiple="multiple" max="10"
+										class="inputPic" accept="image/*">
+								</div>
 							</div>
-	
+
 							<!-- 用户名 -->
 							<div class="form-group">
-								<label class="col-sm-2 control-label">用户名：</label>
-								<input type="text" class="form-control" id="inputName"
-									name="username" placeholder="Username" required>
+								<label class="col-sm-2 control-label">用户名：</label> <input
+									type="text" class="form-control" id="inputName"
+									value="${speaker.username }" name="username"
+									placeholder="Username" required>
 							</div>
 							<!-- 真实姓名 -->
 							<div class="form-group has-feedback">
-								<label class="col-sm-2 control-label">真实姓名：</label>
-								<input type="text" class="form-control" id="inputEmail"
+								<label class="col-sm-2 control-label">真实姓名：</label> <input
+									type="text" class="form-control" id="inputEmail"
 									placeholder="truename" name="truename"
+									value="${speaker.truename }"
 									data-error="Bruh, that truename is invalid" required> <span
 									class="glyphicon form-control-feedback" aria-hidden="true"></span>
 								<span class="help-block with-errors">Please enter a valid
 									truename</span>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label">联系方式：</label>
-								<input type="text" class="form-control"
+								<label class="col-sm-2 control-label">联系方式：</label> <input
+									type="text" class="form-control" value="${speaker.phone }"
 									id="inputPasswordConfirm" data-match="#inputPassword"
 									data-match-error="Whoops, these don't match"
 									placeholder="telephone" required>
@@ -284,108 +293,108 @@
 			}
 		}
 
-		function userLogout(){
-			swal({   
-				title: "确认要退出了吗？",
-				text: "",   
-				type: "warning",   
-				showCancelButton: true, 
-				showConfirmButton: true,
-				closeOnConfirm: false,   
-				animation: "slide-from-top",   
-				inputPlaceholder: "密码",
-				confirmButtonText: "确定",
-		        cancelButtonText: "取消",
-			}, function (){
+		function userLogout() {
+			swal({
+				title : "确认要退出了吗？",
+				text : "",
+				type : "warning",
+				showCancelButton : true,
+				showConfirmButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function() {
 				$.ajax({
-					url:"/buct-video-web/login/userLogout",
-					type:"post",
-					success:function(data){
-						if(data=='success'){
-							swal("退出成功!","","success");
-							window.href="/buct-video-web/login/toLogin";
-						}else{
-							swal("退出失败!","请重试","error");
+					url : "/buct-video-web/login/userLogout",
+					type : "post",
+					success : function(data) {
+						if (data == 'success') {
+							swal("退出成功!", "", "success");
+							window.href = "/buct-video-web/login/toLogin";
+						} else {
+							swal("退出失败!", "请重试", "error");
 						}
 					}
 				})
 			})
 		}
-		
-		var speakerId="${speaker.id}";
-		function resetPwd(){
-			swal({   
-				title: "请输入旧密码",
-				text: "",   
-				type: "input",   
-				showCancelButton: true,   
-				closeOnConfirm: false,   
-				animation: "slide-from-top",   
-				inputPlaceholder: "原密码",
-				confirmButtonText: "确定",
-		        cancelButtonText: "取消",
-			}, function (inputValue){
+
+		var speakerId = "${speaker.id}";
+		function resetPwd() {
+			swal({
+				title : "请输入旧密码",
+				text : "",
+				type : "input",
+				showCancelButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "原密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function(inputValue) {
 				$.ajax({
-					url:"/buct-video-web/speaker/testOldPwd",
-					data:"password="+inputValue,
-					type:"post",
+					url : "/buct-video-web/speaker/testOldPwd",
+					data : "password=" + inputValue,
+					type : "post",
 					//与原密码进行比对
-					success:function(data){
+					success : function(data) {
 						//成功匹配，准备输入新密码
-						if(data=='success'){
+						if (data == 'success') {
 							inputNewPwdFirst();
-						}else{
+						} else {
 							//未成功匹配
-							swal("与原密码不匹配!","请重试","error");
+							swal("与原密码不匹配!", "请重试", "error");
 						}
 					}
 				})
 			})
 		}
-		
-		function inputNewPwdFirst(){
-			swal({   
-				title: "请输入新密码",
-				text: "",   
-				type: "input",   
-				showCancelButton: true,   
-				closeOnConfirm: false,   
-				animation: "slide-from-top",   
-				inputPlaceholder: "密码",
-				confirmButtonText: "确定",
-		        cancelButtonText: "取消",
-			}, function (inputValue){
+
+		function inputNewPwdFirst() {
+			swal({
+				title : "请输入新密码",
+				text : "",
+				type : "input",
+				showCancelButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function(inputValue) {
 				inputNewPwdSecond(inputValue);
 			})
 		}
-		
-		function inputNewPwdSecond(pwd){
-			swal({   
-				title: "请再次输入新密码",
-				text: "",   
-				type: "input",   
-				showCancelButton: true,   
-				closeOnConfirm: false,   
-				animation: "slide-from-top",   
-				inputPlaceholder: "密码",
-				confirmButtonText: "确定",
-		        cancelButtonText: "取消",
-			}, function (inputValue){
-				if(pwd!=inputValue){
-					swal("两次输入密码不一致!","操作失败","error");
-				}else{
+
+		function inputNewPwdSecond(pwd) {
+			swal({
+				title : "请再次输入新密码",
+				text : "",
+				type : "input",
+				showCancelButton : true,
+				closeOnConfirm : false,
+				animation : "slide-from-top",
+				inputPlaceholder : "密码",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+			}, function(inputValue) {
+				if (pwd != inputValue) {
+					swal("两次输入密码不一致!", "操作失败", "error");
+				} else {
 					$.ajax({
-						url:"/buct-video-web/speaker/updateSpeaker",
-						data:"id="+speakerId+"&password="+inputValue,
-						type:"post",
+						url : "/buct-video-web/speaker/updateSpeaker",
+						data : "id=" + speakerId + "&password=" + inputValue,
+						type : "post",
 						//与原密码进行比对
-						success:function(data){
+						success : function(data) {
 							//成功匹配，准备输入新密码
-							if(data=='success'){
-								swal("添加成功!","","success");
-							}else{
+							if (data == 'success') {
+								swal("添加成功!", "", "success");
+							} else {
 								//未成功匹配
-								swal("添加失败!","请重试","error");
+								swal("添加失败!", "请重试", "error");
 							}
 						}
 					})
